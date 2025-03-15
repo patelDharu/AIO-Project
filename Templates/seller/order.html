@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Your Order</h2>
+        <div class="card shadow p-4 mx-auto" style="max-width: 600px;">
+            
+            <div class="d-flex align-items-center mb-3">
+                <img src="https://cdnc.lystit.com/photos/2012/04/13/polo-ralph-lauren-white-miami-polo-shirt-product-4-3219583-310149366.jpeg" class="w-25 rounded me-3" alt="Product">
+                <div class="w-100">
+                    <h5 class="mb-1">POLO T-SHIRT <span>x1</span></h5>
+                    <p class="text-muted mb-1">$<span class="price">120</span></p>
+                    <p class="text-success">Delivered</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <img src="https://i.etsystatic.com/39208616/r/il/7fa836/4665547795/il_1080xN.4665547795_lwgj.jpg" class="w-25 rounded me-3" alt="Product">
+                <div class="w-100">
+                    <h5 class="mb-1">BAGGY JEANS <span>x1</span></h5>
+                    <p class="text-muted mb-1">$<span class="price">120</span></p>
+                    <p class="text-danger">Not Delivered</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <img src="https://i5.walmartimages.com/asr/253ef255-84c8-415e-bf8c-9f5e1ee47b6d_2.4d46e344c81c23a97340653031a155ce.png?odnWidth=1000&odnHeight=1000&odnBg=ffffff" class="w-25 rounded me-3" alt="Product">
+                <div class="w-100">
+                    <h5 class="mb-1">SHIRT <span>x1</span></h5>
+                    <p class="text-muted mb-1">$<span class="price">120</span></p>
+                    <p class="text-success">Delivered</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <img src="https://i.pinimg.com/736x/a9/95/ee/a995ee710e474a118d7624d4706c9121.jpg" class="w-25 rounded me-3" alt="Product">
+                <div class="w-100">
+                    <h5 class="mb-1">DRESS <span>x1</span></h5>
+                    <p class="text-muted mb-1">$<span class="price">120</span></p>
+                    <p class="text-danger">Not Delivered</p>
+                </div>
+            </div>
+
+            <div class="border-top pt-3">
+                <h5>Total: $<span id="totalPrice">480</span></h5>
+            </div>
+
+            <div class="border-top pt-3">
+                <h5>Pending Items: <span id="pendingItems">2</span></h5>
+            </div>
+
+            <button class="btn btn-primary w-100 mt-3">Place Order</button>
+
+        </div>
+    </div>
+
+</body>
+</html>

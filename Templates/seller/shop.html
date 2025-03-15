@@ -1,0 +1,131 @@
+{% extends 'seller/vendor_base.html' %}
+{% load static %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #catimg{
+            border-radius: 50%; 
+          }
+    </style>
+</head>
+<body>
+    <div class="banner-wrapper has_background">
+        <img src="{% static 'assets/images/banner-for-all2.jpg' %}"
+             class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+        <div class="banner-wrapper-inner">
+            <br>
+            <br>
+            <div class="container lynessa-categories style-02">
+                <div class="categories-list-owl owl-slick equal-container better-height"
+                     data-slick="{&quot;arrows&quot;:true,&quot;slidesMargin&quot;:60,&quot;dots&quot;:false,&quot;infinite&quot;:false,&quot;speed&quot;:300,&quot;slidesToShow&quot;:6,&quot;rows&quot;:1}"
+                     data-responsive="[{&quot;breakpoint&quot;:480,&quot;settings&quot;:{&quot;slidesToShow&quot;:3,&quot;slidesMargin&quot;:&quot;10&quot;}},{&quot;breakpoint&quot;:768,&quot;settings&quot;:{&quot;slidesToShow&quot;:4,&quot;slidesMargin&quot;:&quot;20&quot;}},{&quot;breakpoint&quot;:992,&quot;settings&quot;:{&quot;slidesToShow&quot;:5,&quot;slidesMargin&quot;:&quot;30&quot;}},{&quot;breakpoint&quot;:1200,&quot;settings&quot;:{&quot;slidesToShow&quot;:6,&quot;slidesMargin&quot;:&quot;40&quot;}},{&quot;breakpoint&quot;:1500,&quot;settings&quot;:{&quot;slidesToShow&quot;:6,&quot;slidesMargin&quot;:&quot;50&quot;}}]">
+                    {% for i in cat %}
+                     <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                        <div class="categories-inner">
+                            <figure class="categories-thumb">
+                                <a href="#" tabindex="-1">
+                                    <img id="catimg" src="{{i.image.url}}"
+                                         class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                            </figure>
+                            <h3 class="title">
+                                <a href="#" tabindex="-1">
+                                    {{i.name}} </a>
+                            </h3>
+                            <a href={% url "seller:edit_cat" i.id %}>
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                   
+                </div>
+            </div>
+    
+            <a href="/seller/shop/add_prod">
+                <button class="btn">Add Product</button>
+            </a>
+    
+            <a href="/seller/shop/add_cat">
+                <button class="btn">Add Category</button>
+            </a>
+    
+        </div>
+    </div>
+    <h1 class="page-title">Seller Products Management</h1>
+    
+    <div class="main-container shop-page no-sidebar">
+    
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-md-12">
+                    <div class=" auto-clear lynessa-products">
+                        <ul class="row products columns-3">
+                            {% for i in pro %}
+                            <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-24 product type-product status-publish has-post-thumbnail product_cat-chair product_cat-table product_cat-new-arrivals product_tag-light product_tag-hat product_tag-sock first instock featured shipping-taxable purchasable product-type-variable has-default-attributes"
+                                data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                                <div class="product-inner tooltip-left">
+                                    <div class="product-thumb">
+                                        <a class="thumb-link" href="/prod_details">
+                                            <img class="img-responsive"
+                                                 src="{{i.gallery.url}}"
+                                                 alt="MINI SKIRT" width="600" height="778">
+                                        </a>
+                                        <div class="flash">
+                                            <span class="onnew"><span class="text">New</span></span>
+                                        </div>
+                                        <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                        <div class="group-button">
+                                            <div class="btn btn-warning">
+                                                <a href={% url "seller:edit_prod" i.product_id %}><i class="fa fa-edit text-dark"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-info equal-elem">
+                                        <h3 class="product-name product_title">
+                                            <a href="/prod_details">{{i.name}}</a>
+                                        </h3>
+                                        <div class="rating-wapper nostar">
+                                            <div class="star-rating"><span style="width:0%">Rated <strong
+                                                    class="rating">0</strong> out of 5</span></div>
+                                            <span class="review">(0)</span></div>
+                                        <span class="price"><span class="lynessa-Price-amount amount"><span
+                                                class="lynessa-Price-currencySymbol">₹</span>45.00</span> – <span
+                                                class="lynessa-Price-amount amount"><span
+                                                class="lynessa-Price-currencySymbol">₹</span>54.00</span></span>
+                                        <div class="lynessa-product-details__short-description">
+                                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                                turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                                tempor sit amet, ante.</p>
+                                            <ul>
+                                                <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                                <li>CLean zip-front, and three piece hood</li>
+                                                <li>Subtle branding and diagonal panel detail</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                      
+                        </ul>
+                    </div>
+                    <div class="shop-control shop-after-control">
+                        <nav class="lynessa-pagination">
+                            <span class="page-numbers current">1</span>
+                            <a class="page-numbers" href="#">2</a>
+                            <a class="next page-numbers" href="#">Next</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}

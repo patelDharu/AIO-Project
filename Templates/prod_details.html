@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="single-thumb-vertical main-container shop-page no-sidebar">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="main-content col-md-12 mt-5">
+                <div class="lynessa-notices-wrapper"></div>
+                <div id="product-{{ products.product_id }}"
+                     class="post-{{ products.product_id }} product type-product status-publish has-post-thumbnail">
+                    <div class="main-contain-summary">
+                        <div class="contain-left has-gallery">
+                            <div class="single-left">
+                                <div class="lynessa-product-gallery lynessa-product-gallery--with-images lynessa-product-gallery--columns-4 images">
+                                    <div class="flex-viewport">
+                                        <figure class="lynessa-product-gallery__wrapper">
+                                            <div class="lynessa-product-gallery__image">
+                                                <img alt="img" src="{{ products.gallery.url }}">
+                                            </div>
+                                            <!-- Add more images if available -->
+                                        </figure>
+                                    </div>
+                                    <ol class="flex-control-nav flex-control-thumbs">
+                                        <li><img
+                                                src="{{ products.gallery.url }}" alt="img">
+                                        </li>
+                                </div>
+                            </div>
+                            <div class="summary entry-summary">
+                                <div class="flash">
+                                    {% if products.offer %}
+                                    <span class="onnew"><span class="text">New</span></span>
+                                    {% endif %}
+                                </div>
+                                <h1 class="product_title entry-title">{{ products.name }}</h1>
+                                <p class="price">
+                                    <span class="lynessa-Price-amount amount">
+                                        <span class="lynessa-Price-currencySymbol">₹</span>{{ products.price }}
+                                    </span>
+                                </p>
+                                <p class="stock in-stock">
+                                    Availability: <span> In stock</span>
+                                </p>
+                                <div class="lynessa-product-details__short-description">
+                                    <p>{{ product.description }}</p>
+                                    <ul>
+                                        <li>Category: {{ products.sub_category.category.name }}</li>
+                                        <li>Subcategory: {{ products.sub_category.name }}</li>
+                                        <li>Stock: {{ products.stock }}</li>
+                                    </ul>
+                                </div>
+<!--<div class="single-thumb-vertical main-container shop-page no-sidebar">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="main-content col-md-12 mt-5">
+                <div class="lynessa-notices-wrapper"></div>
+                <div id="product-27"
+                     class="post-27 product type-product status-publish has-post-thumbnail product_cat-table product_cat-new-arrivals product_cat-lamp product_tag-table product_tag-sock first instock shipping-taxable purchasable product-type-variable has-default-attributes">
+                    <div class="main-contain-summary">
+                        <div class="contain-left has-gallery">
+                            <div class="single-left">
+                                <div class="lynessa-product-gallery lynessa-product-gallery--with-images lynessa-product-gallery--columns-4 images">
+                                    <div class="flex-viewport">
+                                        <figure class="lynessa-product-gallery__wrapper">
+                                            <div class="lynessa-product-gallery__image">
+                                                <img alt="img"
+                                                     src="{% static 'assets/images/img1.jpg' %}">
+                                            </div>
+                                            <div class="lynessa-product-gallery__image">
+                                                <img src="{% static 'assets/images/img1.1.jpg' %}"
+                                                     alt="img">
+                                            </div>
+                                            <div class="lynessa-product-gallery__image">
+                                                <img src="{% static 'assets/images/img1.2.jpg' %}"
+                                                     class="" alt="img">
+                                            </div>
+                                            <div class="lynessa-product-gallery__image">
+                                                <img src="{% static 'assets/images/img1.3.jpg' %}"
+                                                     class="" alt="img">
+                                            </div>
+                                        </figure>
+                                    </div>
+                                    <ol class="flex-control-nav flex-control-thumbs">
+                                        <li><img
+                                                src="{% static 'assets/images/img1.jpg' %}" alt="img">
+                                        </li>
+                                        <li><img
+                                                src="{% static 'assets/images/img1.1.jpg' %}" alt="img">
+                                        </li>
+                                        <li><img
+                                                src="{% static 'assets/images/img1.2.jpg' %}" alt="img">
+                                        </li>
+                                        <li><img
+                                                src="{% static 'assets/images/img1.3.jpg' %}" alt="img">
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="summary entry-summary">
+                                <div class="flash">
+                                    <span class="onnew"><span class="text">New</span></span></div>
+                                <h1 class="product_title entry-title">cancan inskirt</h1>
+                                <p class="price">
+                                    <span class="lynessa-Price-amount amount">
+                                        <span class="lynessa-Price-currencySymbol">₹</span>50,000
+                                    </span>
+                                </p>
+                                <p class="stock in-stock">
+                                    Availability: <span> In stock</span>
+                                </p>
+                                <div class="lynessa-product-details__short-description">
+                                    <p>Kareena Kapoor Khan in our Tissue Embroidered Saree Set with embroidered corset and cancan inskirt.
+                                    </p>
+                                    <ul>
+                                        <li>Fabric: Tissue.</li>
+                                        <li>Color: Gold.</li>
+                                        <li>Set Includes: Saree, Corset and Inskirt with cancan.</li>
+                                    </ul>
+                                </div>-->
+                                <form class="variations_form cart" method="post" action="{% url 'add_to_cart' products.product_id %}">
+                                    {% csrf_token %}
+                                    <div class="single_variation_wrap">
+                                        <div class="lynessa-variation single_variation"></div>
+                                        <div class="lynessa-variation-add-to-cart variations_button">
+                                            <div class="quantity">
+                                                <span class="qty-label">Quantity:</span>
+                                                <div class="control">
+                                                    <a class="btn-number qtyminus quantity-minus" href="#">-</a>
+                                                    <input type="text" data-step="1" min="0" max="" name="quantity" value="1" title="Qty" class="input-qty input-text qty text" size="4" pattern="[0-9]*" inputmode="numeric">
+                                                    <a class="btn-number qtyplus quantity-plus" href="#">+</a>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="single_add_to_cart_button button alt lynessa-variation-selection-needed">
+                                                Add to cart
+                                            </button>
+                                            <input name="add-to-cart" value="{{ products.id }}" type="hidden">
+                                            <input name="product_id" value="{{ products.id }}" type="hidden">
+                                            <input name="variation_id" class="variation_id" value="0" type="hidden">
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="clear"></div>
+                                <div class="product_meta">
+                                    <div class="wcml-dropdown product wcml_currency_switcher">
+                                        <ul>
+                                            <li class="wcml-cs-active-currency">
+                                                <a class="wcml-cs-item-toggle">USD</a>
+                                                <ul class="wcml-cs-submenu">
+                                                    <li>
+                                                        <a>EUR</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <span class="sku_wrapper">SKU: <span class="sku">885B712</span></span>
+                                    <span class="posted_in">Categories: <a
+                                            href="#"
+                                            rel="tag">{{ products.sub_category.sub_category_one.name }}</a>, <a
+                                            href="#" rel="tag">New arrivals</a>, <a
+                                            href="#" rel="tag"></a></span>
+                                    <span class="tagged_as">Tags: <a href="#"
+                                                                     rel="tag">Dresses</a>, <a
+                                            href="#" rel="tag">Sock</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lynessa-tabs lynessa-tabs-wrapper">
+                        <ul class="tabs dreaming-tabs" role="tablist">
+                            <li class="description_tab active" id="tab-title-description" role="tab"
+                                aria-controls="tab-description">
+                                <a href="#tab-description">Description</a>
+                            </li>
+                            <li class="additional_information_tab" id="tab-title-additional_information" role="tab"
+                                aria-controls="tab-additional_information">
+                                <a href="#tab-additional_information">Additional information</a>
+                            </li>
+                            <li class="reviews_tab" id="tab-title-reviews" role="tab" aria-controls="tab-reviews">
+                                <a href="#tab-reviews">Reviews (0)</a>
+                            </li>
+                        </ul>
+                        <div class="lynessa-Tabs-panel lynessa-Tabs-panel--description panel entry-content lynessa-tab"
+                             id="tab-description" role="tabpanel" aria-labelledby="tab-title-description">
+                            <h2>Description</h2>
+                            <div class="container-table">
+                                <div class="container-cell">
+                                    <h2 class="az_custom_heading">Platea viverra aenean<br>dictumst</h2>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit
+                                        scelerisque integer, quam dapibus per risus donec semper
+                                        vulputate interdum, imperdiet mus rhoncus commodo ultricies
+                                        class urna tincidunt. Imperdiet vitae lacus etiam metus ut nisl
+                                        curae, conubia enim scelerisque quis facilisis torquent,
+                                        ultricies orci faucibus dictumst mauris curabitur. Massa risus
+                                        nec sociosqu fames montes accumsan iaculis justo turpis
+                                        luctus</p>
+                                </div>
+                                <div class="container-cell">
+                                    <div class="az_single_image-wrapper az_box_border_grey">
+                                        <img src="{% static 'assets/images/img2.jpg' %}"
+                                             class="az_single_image-img attachment-full" alt="img"></div>
+                                </div>
+                            </div>
+                            <div class="container-table">
+                                <div class="container-cell">
+                                    <div class="az_single_image-wrapper az_box_border_grey">
+                                        <img src="{% static 'assets/images/smimg3.jpg' %}"
+                                             class="az_single_image-img attachment-full" alt="img"></div>
+                                </div>
+                                <div class="container-cell">
+                                    <h2 class="az_custom_heading">
+                                        Potenti praesent molestie<br>
+                                        at viverra</h2>
+                                    <p>This generator uses a dictionary of Latin words to construct
+                                        passages of Lorem Ipsum text that meet your desired length. The
+                                        sentence and paragraph durations and punctuation dispersal are
+                                        calculated using Gaussian distribution, based on statistical
+                                        analysis of real world texts. This ensures that the generated
+                                        Lorem Ipsum text is unique, free of repetition and also
+                                        resembles readable text as much as possible.</p> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lynessa-Tabs-panel lynessa-Tabs-panel--additional_information panel entry-content lynessa-tab"
+                             id="tab-additional_information" role="tabpanel"
+                             aria-labelledby="tab-title-additional_information">
+                            <h2>Additional information</h2>
+                            <table class="shop_attributes">
+                                <tbody>
+                                <tr>
+                                    <th>Color</th>
+                                    <td><p>Blue, Pink, Red, Yellow</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="lynessa-Tabs-panel lynessa-Tabs-panel--reviews panel entry-content lynessa-tab"
+                             id="tab-reviews" role="tabpanel" aria-labelledby="tab-title-reviews">
+                            <div id="reviews" class="lynessa-Reviews">
+                                <div id="comments">
+                                    <h2 class="lynessa-Reviews-title">Reviews</h2>
+                                    <p class="lynessa-noreviews">There are no reviews yet.</p>
+                                </div>
+                                <div id="review_form_wrapper">
+                                    <div id="review_form">
+                                        <div id="respond" class="comment-respond">
+                                            <span id="reply-title" class="comment-reply-title">Be the first to review “T-shirt with skirt”</span>
+                                            <form id="commentform" class="comment-form">
+                                                <p class="comment-notes"><span id="email-notes">Your email address will not be published.</span>
+                                                    Required fields are marked <span class="required">*</span></p>
+                                                <p class="comment-form-author">
+                                                    <label for="author">Name&nbsp;<span
+                                                            class="required">*</span></label>
+                                                    <input id="author" name="author" value="" size="30" required=""
+                                                           type="text"></p>
+                                                <p class="comment-form-email"><label for="email">Email&nbsp;
+                                                    <span class="required">*</span></label>
+                                                    <input id="email" name="email" value="" size="30" required=""
+                                                           type="email"></p>
+                                                <div class="comment-form-rating"><label for="rating">Your rating</label>
+                                                    <p class="stars">
+                                                        <span>
+                                                        <a class="star-1" href="#">1</a>
+                                                        <a class="star-2" href="#">2</a>
+                                                        <a class="star-3" href="#">3</a>
+                                                        <a class="star-4" href="#">4</a>
+                                                        <a class="star-5" href="#">5</a>
+                                                        </span>
+                                                    </p>
+                                                    <select title="product_cat" name="rating" id="rating" required=""
+                                                            style="display: none;">
+                                                        <option value="">Rate…</option>
+                                                        <option value="5">Perfect</option>
+                                                        <option value="4">Good</option>
+                                                        <option value="3">Average</option>
+                                                        <option value="2">Not that bad</option>
+                                                        <option value="1">Very poor</option>
+                                                    </select></div>
+                                                <p class="comment-form-comment"><label for="comment">Your
+                                                    review&nbsp;<span class="required">*</span></label><textarea
+                                                        id="comment" name="comment" cols="45" rows="8"
+                                                        required=""></textarea></p><input name="wpml_language_code"
+                                                                                          value="en" type="hidden">
+                                                <p class="form-submit"><input name="submit" id="submit" class="submit"
+                                                                              value="Submit" type="submit"> <input
+                                                        name="comment_post_ID" value="27" id="comment_post_ID"
+                                                        type="hidden">
+                                                    <input name="comment_parent" id="comment_parent" value="0"
+                                                           type="hidden">
+                                                </p></form>
+                                        </div><!-- #respond -->
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

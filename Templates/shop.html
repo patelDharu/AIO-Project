@@ -1,0 +1,702 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<!--<div class="banner-wrapper has_background">
+    <img src="{% static 'assets/images/banner-for-all2.jpg' %}"
+         class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+    <div class="banner-wrapper-inner">
+        <div class="container lynessa-categories style-02">
+            <div class="categories-list-owl owl-slick equal-container better-height"
+                 data-slick="{&quot;arrows&quot;:true,&quot;slidesMargin&quot;:60,&quot;dots&quot;:false,&quot;infinite&quot;:false,&quot;speed&quot;:300,&quot;slidesToShow&quot;:6,&quot;rows&quot;:1}"
+                 data-responsive="[{&quot;breakpoint&quot;:480,&quot;settings&quot;:{&quot;slidesToShow&quot;:3,&quot;slidesMargin&quot;:&quot;10&quot;}},{&quot;breakpoint&quot;:768,&quot;settings&quot;:{&quot;slidesToShow&quot;:4,&quot;slidesMargin&quot;:&quot;20&quot;}},{&quot;breakpoint&quot;:992,&quot;settings&quot;:{&quot;slidesToShow&quot;:5,&quot;slidesMargin&quot;:&quot;30&quot;}},{&quot;breakpoint&quot;:1200,&quot;settings&quot;:{&quot;slidesToShow&quot;:6,&quot;slidesMargin&quot;:&quot;40&quot;}},{&quot;breakpoint&quot;:1500,&quot;settings&quot;:{&quot;slidesToShow&quot;:6,&quot;slidesMargin&quot;:&quot;50&quot;}}]">
+                Categories Section
+                (Your existing categories code goes here) 
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="banner-wrapper has_background">
+    <img src="{% static 'assets/images/banner-for-all2.jpg' %}"
+         class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+    <div class="banner-wrapper-inner">
+        <h1 class="page-title">Shop</h1>
+        <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            <ul class="trail-items breadcrumb">
+                <li class="trail-item trail-begin"><a href="/"><span>Home</span></a></li>
+                <li class="trail-item trail-end active"><span>Shop</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--<h1 class="page-title">Shop</h1>-->
+<div class="main-container shop-page no-sidebar">
+    <div class="container">
+        <div class="row">
+            <div class="main-content col-md-12">
+                <div class="auto-clear lynessa-products">
+                    <ul class="row products columns-3">
+                        {% for product in products %}
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-{{ product.product_id }} product type-product status-publish has-post-thumbnail"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details/{{ product.product_id }}">
+                                        <img class="img-responsive"
+                                             src="{{ product.gallery.url }}"
+                                             alt="{{ product.name }}" width="600" height="778">
+                                    </a>
+                                    {% if product.offer %}
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    {% endif %}
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="{{ product.product_id }}">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details/{{ product.product_id }}">{{ product.name }}</a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span>
+                                    </div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>{{ product.description|truncatewords:20 }}</p>
+                                        <ul>
+                                            <li>Category: {{ product.category }}</li>
+                                            <li>Subcategory: {{ product.subCategory }}</li>
+                                            <li>Stock: {{ product.stock }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <div class="col-md-12">
+                            <p>No product found.</p>
+                        </div>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="shop-control shop-after-control">
+                    <nav class="lynessa-pagination">
+                        <span class="page-numbers current">1</span>
+                        <a class="page-numbers" href="#">2</a>
+                        <a class="next page-numbers" href="#">Next</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="banner-wrapper has_background">
+    <img src="{% static 'assets/images/banner-for-all2.jpg' %}"
+         class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+    <div class="banner-wrapper-inner">
+        <div class="container lynessa-categories style-02">
+            <div class="categories-list-owl owl-slick equal-container better-height"
+                 data-slick="{&quot;arrows&quot;:true,&quot;slidesMargin&quot;:60,&quot;dots&quot;:false,&quot;infinite&quot;:false,&quot;speed&quot;:300,&quot;slidesToShow&quot;:6,&quot;rows&quot;:1}"
+                 data-responsive="[{&quot;breakpoint&quot;:480,&quot;settings&quot;:{&quot;slidesToShow&quot;:3,&quot;slidesMargin&quot;:&quot;10&quot;}},{&quot;breakpoint&quot;:768,&quot;settings&quot;:{&quot;slidesToShow&quot;:4,&quot;slidesMargin&quot;:&quot;20&quot;}},{&quot;breakpoint&quot;:992,&quot;settings&quot;:{&quot;slidesToShow&quot;:5,&quot;slidesMargin&quot;:&quot;30&quot;}},{&quot;breakpoint&quot;:1200,&quot;settings&quot;:{&quot;slidesToShow&quot;:6,&quot;slidesMargin&quot;:&quot;40&quot;}},{&quot;breakpoint&quot;:1500,&quot;settings&quot;:{&quot;slidesToShow&quot;:6,&quot;slidesMargin&quot;:&quot;50&quot;}}]">
+                <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                    <div class="categories-inner">
+                        <figure class="categories-thumb">
+                            <a href="#" tabindex="-1">
+                                <img src="{% static 'assets/images/aboutimg1.jpg' %}"
+                                     class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                        </figure>
+                        <h3 class="title">
+                            <a href="#" tabindex="-1">
+                                NECKLESS </a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                    <div class="categories-inner">
+                        <figure class="categories-thumb">
+                            <a href="#" tabindex="-1">
+                                <img src="{% static 'assets/images/aboutimg2.jpg' %}"
+                                     class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                        </figure>
+                        <h3 class="title">
+                            <a href="#" tabindex="-1"> JEWELLERY SET</a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                    <div class="categories-inner">
+                        <figure class="categories-thumb">
+                            <a href="#" tabindex="0">
+                                <img src="{% static 'assets/images/aboutimg3.jpg' %}"
+                                     class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                        </figure>
+                        <h3 class="title">
+                            <a href="#" tabindex="0">
+                                HERITAGE JEWELLERY SET</a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                    <div class="categories-inner">
+                        <figure class="categories-thumb">
+                            <a href="#" tabindex="0">
+                                <img src="{% static 'assets/images/aboutimg4.jpg' %}"
+                                     class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                        </figure>
+                        <h3 class="title">
+                            <a href="#" tabindex="0">
+                                RINGS</a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                    <div class="categories-inner">
+                        <figure class="categories-thumb">
+                            <a href="#" tabindex="0">
+                                <img src="{% static 'assets/images/aboutimg5.jpg' %}"
+                                     class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                        </figure>
+                        <h3 class="title">
+                            <a href="#" tabindex="0">
+                                SHORT NECKLESS </a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                    <div class="categories-inner">
+                        <figure class="categories-thumb">
+                            <a href="#" tabindex="0">
+                                <img src="{% static 'assets/images/aboutimg6.jpg' %}"
+                                     class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                        </figure>
+                        <h3 class="title">
+                            <a href="#" tabindex="0">
+                                EARRINGS </a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                    <div class="categories-inner">
+                        <figure class="categories-thumb">
+                            <a href="#" tabindex="0">
+                                <img src="{% static 'assets/images/img18.jpg' %}"
+                                     class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                        </figure>
+                        <h3 class="title">
+                            <a href="#" tabindex="0">
+                                BANGALS </a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                    <div class="categories-inner">
+                        <figure class="categories-thumb">
+                            <a href="#" tabindex="-1">
+                                <img src="{% static 'assets/images/aboutimg2.jpg' %}"
+                                     class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                        </figure>
+                        <h3 class="title">
+                            <a href="#" tabindex="-1">
+                                NECKLESS </a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                    <div class="categories-inner">
+                        <figure class="categories-thumb">
+                            <a href="#" tabindex="-1">
+                                <img src="{% static 'assets/images/smimg13.jpg' %}"
+                                     class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                        </figure>
+                        <h3 class="title">
+                            <a href="#" tabindex="-1"> PURSE </a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="categories-item rows-space-0 post-740 page type-page status-publish hentry">
+                    <div class="categories-inner">
+                        <figure class="categories-thumb">
+                            <a href="#" tabindex="0">
+                                <img src="{% static 'assets/images/smimg14.jpg' %}"
+                                     class="img-responsive attachment-370x370 size-370x370" alt="img"> </a>
+                        </figure>
+                        <h3 class="title">
+                            <a href="#" tabindex="0">
+                                BALT </a>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h1 class="page-title">Women</h1>
+<div class="main-container shop-page no-sidebar">
+    <div class="container">
+        <div class="row">
+            <div class="main-content col-md-12">
+                <div class=" auto-clear lynessa-products">
+                    <ul class="row products columns-3">
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-24 product type-product status-publish has-post-thumbnail product_cat-chair product_cat-table product_cat-new-arrivals product_tag-light product_tag-hat product_tag-sock first instock featured shipping-taxable purchasable product-type-variable has-default-attributes"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg1.jpg' %}"
+                                             alt="MINI SKIRT" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Olive Green Embroidered Saree Set</a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong
+                                                class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span></div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>45,000.00</span> – <span
+                                            class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>54,000.00</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-28 product type-product status-publish has-post-thumbnail product_cat-light product_cat-chair product_cat-sofas product_tag-light product_tag-sock  instock sale featured shipping-taxable purchasable product-type-simple"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg2.jpg' %}"
+                                             alt="SLEEVELESS TOP" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onsale"><span class="number">-14%</span></span>
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Pink Floral Sequin Lehenga Set</a>
+                                    </h3>
+                                    <div class="rating-wapper ">
+                                        <div class="star-rating"><span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5</span>
+                                        </div>
+                                        <span class="review">(1)</span></div>
+                                    <span class="price"><del><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>1,38,000.00</span></del> <ins><span
+                                            class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>1,19,000.00</span></ins></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-30 product type-product status-publish has-post-thumbnail product_cat-light product_cat-bed product_cat-specials product_tag-light product_tag-table product_tag-sock last instock featured downloadable shipping-taxable purchasable product-type-simple"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg3.jpg' %}"
+                                             alt="STRIPE SKIRTS" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Red Silk Embroidered Lehenga Set</a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong
+                                                class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span></div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>60,000.00</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-23 product type-product status-publish has-post-thumbnail product_cat-chair product_cat-lamp product_cat-sofas product_tag-hat first instock shipping-taxable purchasable product-type-variable has-default-attributes"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg4.jpg' %}"
+                                             alt="INSERT SINGLET" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Mijwan Chikankari Lehenga Set</a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong
+                                                class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span></div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>1,05,000.00</span> – <span
+                                            class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>1,10,000.00</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-35 product type-product status-publish has-post-thumbnail product_cat-chair product_cat-new-arrivals product_cat-lamp product_tag-light product_tag-hat product_tag-sock  instock shipping-taxable purchasable product-type-simple"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive" 
+                                             src="{% static 'assets/images/womenimg5.jpg' %}"
+                                             alt="MARIE CAMI" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Rose Lehenga Set
+                                        </a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong
+                                                class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span></div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>1,34,000.00</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-22 product type-product status-publish has-post-thumbnail product_cat-table product_cat-bed product_cat-lamp product_tag-table product_tag-hat product_tag-sock last instock featured downloadable shipping-taxable purchasable product-type-simple"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg6.jpg' %}"
+                                             alt="BASIC SINGLET" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Ivory Sequin Georgette Embroidered Saree Set</a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong
+                                                class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span></div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>98,000.00</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-33 product type-product status-publish has-post-thumbnail product_cat-chair product_cat-table product_cat-lamp product_tag-light product_tag-table product_tag-hat first instock shipping-taxable purchasable product-type-variable has-default-attributes"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg7.jpg' %}"
+                                             alt="Glasses" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Ivory Georgette Embroidered Mirror Straight Bandeau</a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong
+                                                class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span></div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>56,000.00</span> – <span
+                                            class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>60,000.00</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-26 product type-product status-publish has-post-thumbnail product_cat-light product_cat-chair product_cat-sofas product_tag-light product_tag-hat  instock featured shipping-taxable product-type-external"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg8.jpg' %}"
+                                             alt="ELOISE SHIRRED" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Pink Pattu Pavadai Saree Skirt Set</a>
+                                    </h3>
+                                    <div class="rating-wapper ">
+                                        <div class="star-rating"><span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5</span>
+                                        </div>
+                                        <span class="review">(1)</span></div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>2,07,000.00</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-34 product type-product status-publish has-post-thumbnail product_cat-light product_cat-new-arrivals product_tag-light product_tag-hat product_tag-sock last instock sale featured shipping-taxable product-type-grouped"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg9.jpg' %}"
+                                             alt="INSERT TANK" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Handcrafted Gold Lehenga Set</a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong
+                                                class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span></div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>79,000.00</span> – <span
+                                            class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>1,39,000.00</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-32 product type-product status-publish has-post-thumbnail product_cat-light product_cat-chair product_cat-sofas product_tag-hat product_tag-sock first instock sale featured shipping-taxable purchasable product-type-simple"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg10.jpg' %}"
+                                             alt="MINI SKIRT" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onsale"><span class="number">-18%</span></span>
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Ivory Lehenga Set</a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong
+                                                class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span></div>
+                                    <span class="price"><del><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>1,09,000.00</span></del> <ins><span
+                                            class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>89,000.00</span></ins></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-21 product type-product status-publish has-post-thumbnail product_cat-light product_cat-bed product_cat-lamp product_tag-light product_tag-sock  outofstock featured shipping-taxable purchasable product-type-simple"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg11.jpg' %}"
+                                             alt="WIDE PANTS" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="sold-out"><span>Sold out</span></span>
+                                    </div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="/prod_details">Pink Tulle Lehenga Set</a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong
+                                                class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span></div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>3,50,000.00</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item wow fadeInUp product-item rows-space-30 col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01 post-93 product type-product status-publish has-post-thumbnail product_cat-light product_cat-table product_cat-new-arrivals product_tag-table product_tag-sock last instock shipping-taxable purchasable product-type-simple"
+                            data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                            <div class="product-inner tooltip-left">
+                                <div class="product-thumb">
+                                    <a class="thumb-link" href="/prod_details">
+                                        <img class="img-responsive"
+                                             src="{% static 'assets/images/womenimg12.jpg' %}"
+                                             alt="KNIT LIKE" width="600" height="778">
+                                    </a>
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
+                                </div>
+                                <div class="product-info equal-elem">
+                                    <h3 class="product-name product_title">
+                                        <a href="#">one-shoulder Gown Saree</a>
+                                    </h3>
+                                    <div class="rating-wapper nostar">
+                                        <div class="star-rating"><span style="width:0%">Rated <strong
+                                                class="rating">0</strong> out of 5</span></div>
+                                        <span class="review">(0)</span></div>
+                                    <span class="price"><span class="lynessa-Price-amount amount"><span
+                                            class="lynessa-Price-currencySymbol">₹</span>1,09,000.00</span></span>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                            turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+                                            tempor sit amet, ante.</p>
+                                        <ul>
+                                            <li>Water-resistant fabric with soft lycra detailing inside</li>
+                                            <li>CLean zip-front, and three piece hood</li>
+                                            <li>Subtle branding and diagonal panel detail</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="shop-control shop-after-control">
+                    <nav class="lynessa-pagination">
+                        <span class="page-numbers current">1</span>
+                        <a class="page-numbers" href="#">2</a>
+                        <a class="next page-numbers" href="#">Next</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+{% endblock %}

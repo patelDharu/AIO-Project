@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="banner-wrapper has_background">
+    <img src="{% static 'assets/images/banner-for-all2.jpg' %}"
+         class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+    <div class="banner-wrapper-inner">
+        <h1 class="page-title">Downloads</h1>
+        <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            <ul class="trail-items breadcrumb">
+                <li class="trail-item trail-begin"><a href="/"><span>Home</span></a></li>
+                <li class="trail-item trail-end active"><span>Downloads</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<main class="site-main  main-container no-sidebar">
+    <div class="container">
+        <div class="row">
+            <div class="main-content col-md-12">
+                <div class="page-main-content">
+                    <div class="lynessa">
+                        <nav class="lynessa-MyAccount-navigation">
+                            <ul>
+                                <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--dashboard">
+                                    <a href="/my_account">Dashboard</a>
+                                </li>
+                                <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--orders">
+                                    <a href="/orders">Orders</a>
+                                </li>
+                                <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--downloads is-active">
+                                    <a href="/downloads">Downloads</a>
+                                </li>
+                                <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address">
+                                    <a href="/addresses">Addresses</a>
+                                </li>
+                                <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-account">
+                                    <a href="/edit_account">Account details</a>
+                                </li>
+                                <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--customer-logout">
+                                    <a href="/">Logout</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="lynessa-MyAccount-content">
+                            <div class="lynessa-notices-wrapper"></div>
+                            <div class="lynessa-Message lynessa-Message--info lynessa-info">
+                                <a class="lynessa-Button button" href="/shop">Go shop</a>
+                                No downloads available yet.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
