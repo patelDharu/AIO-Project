@@ -19,11 +19,11 @@
     <img src="{% static 'assets/images/banner-for-all2.jpg' %}"
          class="img-responsive attachment-1920x447 size-1920x447" alt="img">
     <div class="banner-wrapper-inner">
-        <h1 class="page-title">Shop</h1>
+        <h1 class="page-title">{{category.name}}</h1>
         <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
             <ul class="trail-items breadcrumb">
                 <li class="trail-item trail-begin"><a href="/"><span>Home</span></a></li>
-                <li class="trail-item trail-end active"><span>Shop</span>
+                <li class="trail-item trail-end active"><span>{{category.name}}</span>
                 </li>
             </ul>
         </div>

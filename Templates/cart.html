@@ -31,6 +31,7 @@
                                         <th class="product-thumbnail">&nbsp;</th>
                                         <th class="product-name">Product</th>
                                         <th class="product-price">Price</th>
+                                        <th class="product-price">Size</th>
                                         <th class="product-quantity">Quantity</th>
                                         <th class="product-subtotal">Total</th>
                                     </tr>
@@ -49,6 +50,9 @@
                                         </td>
                                         <td class="product-price" data-title="Price">
                                             <span class="lynessa-Price-amount amount"><span class="lynessa-Price-currencySymbol">₹</span>{{ cart_item.product.price }}</span>
+                                        </td>
+                                        <td class="product-price" data-title="Price">
+                                            <span class="lynessa-Price-amount amount"><span class="lynessa-Price-currencySymbol"></span>{{ cart_item.size }}</span>
                                         </td>
                                         <td class="product-quantity" data-title="Quantity">
                                             <div class="quantity">

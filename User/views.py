@@ -24,7 +24,10 @@ def index(request):
     catdata = category.objects.all()
     sub_category_onedata = sub_category_one.objects.all()
     sub_categorydata = sub_category.objects.all()
-    return render(request, "index.html",{'main_category':catdata,'sub_category_one':sub_category_onedata,'sub_category':sub_categorydata})
+    dotd = product.objects.filter(dotd=True)
+    new_arrival = get_object_or_404(category, id=1)
+    new_arrival_prods = product.objects.filter(sub_category__category=new_arrival).order_by('-product_id')
+    return render(request, "index.html",{'main_category':catdata,'sub_category_one':sub_category_onedata,'sub_category':sub_categorydata,'dotd':dotd, 'new_arrival_prods':new_arrival_prods})
 
 
 
@@ -104,6 +107,13 @@ def men(request,sub_category_id):
 
 
 
+def search(request):
+    query = request.GET.get("query")
+    sub_categorys = f"Results for {str(query)}"
+    products = product.objects.filter(name__icontains=str(query))
+
+    return render(request, 'men.html', {'products': products, 'subcategory': sub_categorys})
+
 def prod_details(request, product_id):
     products = get_object_or_404(product, product_id=product_id)  # Fetch the product by ID
     return render(request, 'prod_details.html', {'products': products})
@@ -128,6 +138,7 @@ def cart(request):
 def add_to_cart(request, product_id):
     products = get_object_or_404(product, product_id=product_id)
     email = request.session.get('email')
+    size = request.POST.get("my_size")
 
     if email:
         # Get or create the UserProfile based on the email
@@ -137,6 +148,7 @@ def add_to_cart(request, product_id):
         cart_item, created = Cart.objects.get_or_create(
         product=products,
         UserProfile=user_profile,
+        size=size,
         defaults={'quantity': 1}
     )
 
@@ -209,6 +221,8 @@ def place_order(request):
                         seller_id=item.product.seller_id,
                         ordered_at=timezone.now(),
                         quantity=item.quantity,
+                        size=item.size,
+                        admin_cut=(total_price * 0.10),
                         total_price=total_price,
                         status='Pending',
                         fname=fname,
@@ -239,6 +253,8 @@ def place_order(request):
                         seller_id=item.product.seller_id,
                         ordered_at=timezone.now(),
                         quantity=item.quantity,
+                        size=item.size,
+                        admin_cut=(total_price * 0.10),
                         total_price=total_price,
                         status='Completed',
                         fname=fname,
@@ -372,8 +388,74 @@ def edit_account(request):
 def track(request):
     return render(request, "track.html")
 
+
 def wishlist(request):
-    return render(request, "wishlist.html")
+    email = request.session.get('email')
+    if email:
+        # Get the user profile based on the session email
+        user_profile = get_object_or_404(UserProfile, email=email)
+
+        # Get all the products in the user's wishlist, including the size field
+        wishlist_items = Wishlist.objects.filter(user_profile=user_profile)
+
+        return render(request, "wishlist.html", {"wishlist_items": wishlist_items})
+    else:
+        return redirect('logreg')
+
+
+def add_to_wishlist(request, product_id):
+    email = request.session.get('email')
+
+    if email:
+        prod = get_object_or_404(product, product_id=product_id)
+        size = request.POST.get('my_size')
+
+        # Get or create the UserProfile based on the email
+        user_profile = get_object_or_404(UserProfile, email=email)
+
+        # Create or update the wishlist item
+        wishlist_item, created = Wishlist.objects.get_or_create(
+            product=prod,
+            user_profile=user_profile,
+            size=size
+        )
+
+        if created:
+            # Successfully added to wishlist
+            messages.success(request, 'Item added to your Wishlist!')
+        else:
+            messages.info(request, 'Item already exists in your Wishlist!')
+
+        return redirect('wishlist')  # Redirect to the wishlist page
+    else:
+        return redirect('logreg')
+
+def add_to_cart_from_wishlist(request, product_id, size):
+    email = request.session.get('email')
+    if email:
+        # Get the user profile based on the email in the session
+        user_profile = get_object_or_404(UserProfile, email=email)
+        prod = get_object_or_404(product, product_id=product_id)
+
+        # Get or create the cart item for the user and product
+        cart_item, created = Cart.objects.get_or_create(
+            product=prod,
+            UserProfile=user_profile,
+            size=size,
+            defaults={'quantity': 1}
+        )
+        if not created:
+            # If the item already exists in the cart, just increase the quantity
+            cart_item.quantity += 1
+            cart_item.save()
+
+        # Remove the product from the wishlist after it's added to the cart
+        Wishlist.objects.filter(user_profile=user_profile, product=prod).delete()
+
+        messages.success(request, f"'{prod.name}' has been added to your cart!")
+        return redirect('wishlist')  # Redirect back to the wishlist page
+    else:
+        return redirect('logreg')
 
 
 

@@ -66,6 +66,8 @@ class Cart_(admin.ModelAdmin):
     list_display = ['cartid','product','UserProfile','quantity','added_on']
 
 admin.site.register(Cart,Cart_)
+admin.site.register(Size)
+admin.site.register(Wishlist)
 
 # class Order_(admin.ModelAdmin):
 #     list_display = ['orderid','product','UserProfile','seller_id','ordered_at','quantity','total_price','payment_method','status']

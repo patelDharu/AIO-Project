@@ -129,9 +129,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import os
+"""import os
 MEDIA_URL='image/' 
-MEDIA_ROOT=os.path.join(BASE_DIR,'/image')
+MEDIA_ROOT=os.path.join(BASE_DIR,'/image')"""
 
 
 RAZOR_KEY_ID = 'rzp_test_F9gRSjaJozWYhc'
