@@ -3,121 +3,117 @@
 {% block body %}
 <div class="single-thumb-vertical main-container shop-page no-sidebar">
     <div class="container mt-5">
-    <div class="row">
-    <div class="main-content col-md-12 mt-5">
+        <div class="row">
+            <div class="main-content col-md-12 mt-5">
+                <div class="lynessa-tabs lynessa-tabs-wrapper">
+                    <ul class="tabs dreaming-tabs" role="tablist">
+                        <li class="additional_information_tab" id="tab-title-additional_information" role="tab" aria-controls="tab-additional_information">
+                            <a href="#tab-additional_information">Product</a>
+                        </li>
+                    </ul>
 
-    <div class="lynessa-tabs lynessa-tabs-wrapper">
-                        <ul class="tabs dreaming-tabs" role="tablist">
-                            <li class="additional_information_tab" id="tab-title-additional_information" role="tab" aria-controls="tab-additional_information">
-                                <a href="#tab-additional_information">Product</a>
-                            </li>
-                            <!-- <li class="reviews_tab" id="tab-title-reviews" role="tab" aria-controls="tab-reviews">
-                                <a href="#tab-reviews">Category</a>
-                            </li> -->
-                        </ul>
-
-                        <div class="lynessa-Tabs-panel lynessa-Tabs-panel--additional_information panel entry-content lynessa-tab" id="tab-additional_information" role="tabpanel" aria-labelledby="tab-title-additional_information" style="display: none;">
-                            <div class="lynessa-Reviews">
+                    <div class="lynessa-Tabs-panel lynessa-Tabs-panel--additional_information panel entry-content lynessa-tab" id="tab-additional_information" role="tabpanel" aria-labelledby="tab-title-additional_information" style="display: none;">
+                        <div class="lynessa-Reviews">
+                            <div>
                                 <div>
-                                    <div>
-                                        <div class="comment-respond">
-                                            <span class="comment-reply-title">Fill “Product” Details</span>
-                                            <form class="comment-form">
-                                                <p class="comment-form-author">
-                                                    <label for="author">Name&nbsp;<span class="required">*</span></label>
-                                                    <input name="name" value="" size="30" required="" type="text"></p>
-                                                <p class="comment-form-email"><label>Price&nbsp;
-                                                    <span class="required">*</span></label>
-                                                    <input name="price" value="" required="" type="number" name="{{pro.name}}"></p>
-                                                <div class="category">
-                                                    <p class="comment-form-email"><label>Category&nbsp;
-                                                    <span class="required">*</span></label>
-                                                    <select required="">
+                                    <div class="comment-respond">
+                                        <span class="comment-reply-title">Fill “Product” Details</span>
+                                        <form class="comment-form" method="POST" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <p class="comment-form-author">
+                                                <label for="author">Name&nbsp;<span class="required">*</span></label>
+                                                <input name="name" value="{{pro.name}}" size="30" required="" type="text">
+                                            </p>
+
+                                            <p class="comment-form-email">
+                                                <label>Price&nbsp;<span class="required">*</span></label>
+                                                <input name="price" value="{{pro.price}}" required="" type="number">
+                                            </p>
+
+                                            <div class="category">
+                                                <p class="comment-form-email">
+                                                    <label>Category&nbsp;<span class="required">*</span></label>
+                                                    <select name="category" required="">
                                                         {% for i in sub_cat %}
-                                                        <option>{{i.name}}</option>
+                                                            <option value="{{i.id}}" {% if i.id == pro.sub_category.id %}selected{% endif %}>{{i.name}}</option>
                                                         {% endfor %}
                                                     </select>
-                                                </div>
-                                                <div class="comment-form-rating">
-                                                    <label>Main Image&nbsp;
-                                                    <span class="required">*</span></label>
-                                                    <input type="file" accept="image/jpeg" required="">
-                                                </div>
-                                                <div class="comment-form-rating">
-                                                    <label>Image 2&nbsp;
-                                                    <span class="required">*</span></label>
-                                                    <input type="file" accept="image/jpeg" required="">
-                                                </div>
-                                                <div class="comment-form-rating">
-                                                    <label>Image 3&nbsp;
-                                                    <span class="required">*</span></label>
-                                                    <input type="file" accept="image/jpeg" required="">
-                                                </div>
-                                                <div class="comment-form-rating">
-                                                    <label>Image 4&nbsp;
-                                                    <span class="required">*</span></label>
-                                                    <input type="file" accept="image/jpeg" required="">
-                                                </div>
-
-                                                <p class="comment-form-author mt-3">
-                                                    <label for="author">Stock&nbsp;<span class="required">*</span></label>
-                                                    <input name="stock" value="" required="" type="number"></p>
-                                                <p class="comment-form-email mt-3">
-                                                    <label>SKU - Stock Keeping Unit&nbsp;
-                                                    <span class="required">*</span></label>
-                                                    <input name="sku" value="" required="" type="text"></p>
-
-                                                <p class="">
-                                                    <label>Short Description&nbsp;<span class="required">*</span></label>
-                                                    <textarea name="sd" cols="20" rows="4" required=""></textarea>
                                                 </p>
+                                            </div>
 
-                                                <p class="comment-form-comment">
-                                                    <label>Description&nbsp;<span class="required">*</span></label>
-                                                    <textarea name="comment" cols="45" rows="8" required=""></textarea>
-                                                </p>
-                                                <input name="wpml_language_code" value="en" type="hidden">
-                                                <p class="form-submit">
-                                                    <input name="submit" class="submit" value="Submit" type="submit">
-                                                    <input name="comment_post_ID" value="27" type="hidden">
-                                                    <input name="comment_parent" value="0" type="hidden">
-                                                </p>
-                                            </form>
-                                        </div><!-- #respond -->
-                                    </div>
+                                            <div class="sizes">
+                                                <label>Select Size:</label>
+                                                <select name="size" required="">
+                                                    {% for size in sizes %}
+                                                        <option value="{{size.id}}" {% if size.id == pro.sizes.first.id %}selected{% endif %}>{{ size.size }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <div class="comment-form-rating">
+                                                <label>Main Image&nbsp;<span class="required">*</span></label>
+                                                <input type="file" name="gallery" accept="image/jpeg">
+                                                {% if pro.gallery %}
+                                                    <img src="{{ pro.gallery.url }}" alt="Gallery Image" width="100">
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="comment-form-rating">
+                                                <label>Image 2&nbsp;</label>
+                                                <input type="file" name="img2" accept="image/jpeg">
+                                                {% if pro.img2 %}
+                                                    <img src="{{ pro.img2.url }}" alt="Image 2" width="100">
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="comment-form-rating">
+                                                <label>Image 3&nbsp;</label>
+                                                <input type="file" name="img3" accept="image/jpeg">
+                                                {% if pro.img3 %}
+                                                    <img src="{{ pro.img3.url }}" alt="Image 3" width="100">
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="comment-form-rating">
+                                                <label>Image 4&nbsp;</label>
+                                                <input type="file" name="img4" accept="image/jpeg">
+                                                {% if pro.img4 %}
+                                                    <img src="{{ pro.img4.url }}" alt="Image 4" width="100">
+                                                {% endif %}
+                                            </div>
+
+                                            <p class="comment-form-author mt-3">
+                                                <label for="author">Stock&nbsp;<span class="required">*</span></label>
+                                                <input name="stock" value="{{pro.stock}}" required="" type="number">
+                                            </p>
+
+                                            <p class="comment-form-author mt-3">
+                                                <label for="dotd">Deal of the Day?</label>
+                                                <input type="checkbox" name="dotd" {% if pro.dotd %}checked{% endif %}>
+                                            </p>
+
+                                            <p class="comment-form-author mt-3">
+                                                <label for="author">Short Description&nbsp;<span class="required">*</span></label>
+                                                <textarea name="sd" cols="20" rows="4" required="">{{pro.description}}</textarea>
+                                            </p>
+
+                                            <p class="comment-form-comment">
+                                                <label>Description&nbsp;<span class="required">*</span></label>
+                                                <textarea name="comment" cols="45" rows="8" required="">{{pro.description}}</textarea>
+                                            </p>
+
+                                            <p class="form-submit">
+                                                <input name="submit" class="submit" value="Update" type="submit">
+                                            </p>
+                                        </form>
+                                    </div><!-- #respond -->
                                 </div>
-                                <div class="clear"></div>
                             </div>
                         </div>
-                        <!-- <div class="lynessa-Tabs-panel lynessa-Tabs-panel--reviews panel entry-content lynessa-tab" id="tab-reviews" role="tabpanel" aria-labelledby="tab-title-reviews" style="display: none;">
-                            <div id="reviews" class="lynessa-Reviews">
-                                <div id="review_form_wrapper">
-                                    <div id="review_form">
-                                        <div id="respond" class="comment-respond">
-                                            <span id="reply-title" class="comment-reply-title">Fill “Category” Details</span>
-                                            <form id="commentform" class="">
-                                                <p class="comment-form-author">
-                                                    <label for="author">Category Name&nbsp;<span class="required">*</span></label>
-                                                    <input id="author" name="author" value="" size="30" required="" type="text">
-                                                </p>
-                                                <div class="comment-form-rating">
-                                                    <label>Category Image&nbsp;
-                                                    <span class="required">*</span></label>
-                                                    <input type="file" accept="image/jpeg" required="">
-                                                </div>
-                                                <div>
-                                                <input name="submit" id="submit" class="submit" value="Submit" type="submit">
-                                                </div>
-                                                </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="clear"></div> 
-                            </div>
-                        </div> -->
-    </div>
-    </div>
-    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

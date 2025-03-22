@@ -36,6 +36,9 @@
                                 <a href="#" tabindex="-1">
                                     {{i.name}} </a>
                             </h3>
+                            <a href="{% url 'seller:add_cat' %}" class="mr-2">
+                                <i class="fa fa-plus"></i>
+                            </a>
                             <a href={% url "seller:edit_cat" i.id %}>
                                 <i class="fa fa-edit"></i>
                             </a>

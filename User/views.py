@@ -91,7 +91,6 @@ def about(request):
 def shop(request, category_id):
     categorys = get_object_or_404(category, id=category_id)
     products = product.objects.filter(sub_category__category=categorys)
-
     context = {
         'category': categorys,
         'products': products
@@ -490,6 +489,7 @@ def Sellerlogin(request):
         try:
             user=SellerPerson.objects.get(email=request.POST['email'])
             if user.password1 == request.POST['p1']:
+                request.session['ven_email'] = user.email
 
                 return redirect('seller:shop')  
             else:

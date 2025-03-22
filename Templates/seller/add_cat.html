@@ -32,7 +32,9 @@
                                                 <div class="comment-form-rating">
                                                     <label>Category Image&nbsp;
                                                     <span class="required">*</span></label>
+                                                    {% if cat.image.url %}
                                                     <img src="{{cat.image.url}}" alt="" style="height: 500px; width: 500px;">
+                                                    {% endif %}
                                                     <input type="file" name="image" accept="image/jpeg" >
                                                 </div>
                                                 <div>
