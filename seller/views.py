@@ -45,9 +45,12 @@ def Sellerlogin(request):
 
 
 def shop(request):
-    cat = category.objects.all()
-    pro = product.objects.all()
-    return render(request,"seller/shop.html",{'cat':cat,'pro':pro})
+    if 'ven_email' in request.session:
+        cat = category.objects.all()
+        pro = product.objects.all()
+        return render(request,"seller/shop.html",{'cat':cat,'pro':pro})
+    else:
+        return redirect("seller:Sellerlogin")
 
 
 def edit_cat(request,id):

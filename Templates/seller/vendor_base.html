@@ -159,9 +159,9 @@
                             </div>
                         {% endfor %}    
                         
-                        <div class="input-group rounded">
+                        <!-- <div class="input-group rounded">
                             <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div> 
@@ -190,46 +190,7 @@
                             <span class="pe-7s-user">Login </span>
                         </a>
                     </div> {% endcomment %}
-                        <div class="menu-item block-user block-dreaming lynessa-dropdown" class="product">           
-                            <a href="/wishlist"><button  class="block-link wishlist-icon">
-                                 <i class="fa-regular fa-heart"></i></a> 
-                             </button>
-                         </div>
-                        <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">
-                            <div class="shopcart-dropdown block-cart-link" data-lynessa="lynessa-dropdown">
-                                <a class="block-link link-dropdown" href="{% url 'cart' %}">
-                                    <span class="pe-7s-shopbag"></span>
-                                    <span class="count">{{ cart_items.count }}</span>
-                                </a>
-                            </div>
-                            <div class="widget lynessa widget_shopping_cart">
-                                <div class="widget_shopping_cart_content">
-                                    <h3 class="minicart-title">Your Cart<span class="minicart-number-items">{{ cart_items.count }}</span></h3>
-                                    <ul class="lynessa-mini-cart cart_list product_list_widget">
-                                        {% for item in cart_items %}
-                                            <li class="lynessa-mini-cart-item mini_cart_item">
-                                                <a href="{% url 'delete_cart' item.cartid %}" class="remove remove_from_cart_button">×</a>
-                                                <a href="{% url 'prod_details' item.product.product_id %}">
-                                                    <img src="{{ item.product.gallery.url }}" class="attachment-lynessa_thumbnail size-lynessa_thumbnail" alt="img" width="600" height="778">
-                                                    {{ item.product.name }}&nbsp;
-                                                </a>
-                                                <span class="quantity">{{ item.quantity }} × <span class="lynessa-Price-amount amount"><span class="lynessa-Price-currencySymbol">₹</span>{{ item.product.price }}</span></span>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                    <p class="lynessa-mini-cart__total total">
-                                        <strong>Subtotal:</strong>
-                                        <span class="lynessa-Price-amount amount"><span class="lynessa-Price-currencySymbol">₹</span>{{ total_price }}</span>
-                                    </p>
-                                    <p class="lynessa-mini-cart__buttons buttons">
-                                        <a href="/cart" class="button lynessa-forward">View Cart</a>
-                                        <a href="/checkout" class="button checkout lynessa-forward">Checkout</a>
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            </div>
-                        </div>
+                       
                     </div>
                     
                 </div>

@@ -294,7 +294,7 @@ def payment(request):
 
     # order id of newly created order.
     razorpay_order_id = razorpay_order['id']
-    callback_url = 'payment-handler/'
+    callback_url = 'http://127.0.0.1:8000/payment/payment-handler/'
     context = {
         'razorpay_order_id': razorpay_order_id,
         'razorpay_merchant_key': settings.RAZOR_KEY_ID,
