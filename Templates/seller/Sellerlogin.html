@@ -12,32 +12,74 @@
     <div class="container d-flex justify-content-start align-items-center vh-100">
         <div class="card bg-dark bg-opacity-75 text-white p-5 shadow" style="max-width: 500px; width: 100%;">
             <h3 class="text-center mb-4">Login</h3>
-            <form method="post" action="#">
+            <form method="post" action="#" id="contactForm">
                 <div class="mb-3">
                     {% csrf_token %}
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control bg-transparent text-white border-white" id="email" placeholder="Enter email" required name="email">
+                    <label for="user-email" class="form-label">Email address</label>
+                    <input type="email" class="form-control bg-transparent text-white border-white" id="user-email" placeholder="Enter email" required name="email">
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control bg-transparent text-white border-white" id="password" placeholder="Enter password" required name="p1">
+                    <label for="user-password" class="form-label">Password</label>
+                    <input type="password" class="form-control bg-transparent text-white border-white" id="user-password" placeholder="Enter password" required name="p1">
                 </div>
 
-                <div class="mb-3 form-check">
+                <!--<div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="remember">
                     <label class="form-check-label" for="remember">Remember me</label>
-                </div>
+                </div>-->
 
+                <div id="form-errors" style="color: red; margin-top: 10px;"></div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
                 {{m}}  {{p}}
 
                 <div class="text-center mt-3">
-                    <a href="#" class="text-white text-decoration-none">Forgot password?</a>
+                    <a href="/SellerRegistration/" class="text-white text-decoration-none">Seller Registration?</a>
                 </div>
             </form>
         </div>
     </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('contactForm');
+        const emailField = document.getElementById('user-email');
 
+        const errorMessageDiv = document.getElementById('form-errors');
+
+        // Regular Expressions
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email format
+
+        // Validation function
+        function validateForm() {
+            let valid = true;
+            let errorMessages = [];
+
+            // Validate email
+            if (!emailRegex.test(emailField.value)) {
+                errorMessages.push("Please enter a valid email address.");
+                valid = false;
+            }
+
+            // Display error messages if any
+            if (!valid) {
+                errorMessageDiv.innerHTML = errorMessages.join("<br>");
+            } else {
+                errorMessageDiv.innerHTML = "";
+            }
+
+            return valid;
+        }
+
+        // Attach event listeners
+        form.addEventListener('submit', function (event) {
+            if (!validateForm()) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+
+        // Real-time validation (optional: you can check on input or blur)
+        emailField.addEventListener('input', validateForm);
+    });
+</script>
 </body>
 </html>

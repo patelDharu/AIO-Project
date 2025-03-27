@@ -1,0 +1,48 @@
+{% extends 'seller/vendor_base.html' %}
+{% load static %}
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container mt-5">
+    <h2>Update Sub Category</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Sub Category Name Field -->
+        <div class="form-group">
+            <label for="name">Sub Category Name:</label>
+            {{ form.name }}
+        </div>
+
+        <!-- Category Field -->
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select name="category" class="form-control">
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if category.id == subcat.category.id %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Sub Category One Field -->
+        <div class="form-group">
+            <label for="sub_category_one">Sub Category One:</label>
+            <select name="sub_category_one" class="form-control">
+                {% for sub_cat_one in sub_category_ones %}
+                    <option value="{{ sub_cat_one.id }}" {% if sub_cat_one.id == subcat.sub_category_one.id %}selected{% endif %}>
+                        {{ sub_cat_one.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Sub Category</button>
+    </form>
+</div>
+{% endblock %}

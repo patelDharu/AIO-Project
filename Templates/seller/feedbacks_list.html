@@ -1,0 +1,47 @@
+{% extends 'seller/vendor_base.html' %}
+{% load static %}
+{% block body %}
+<div class="banner-wrapper has_background">
+    <img src="{% static 'assets/images/banner-for-all2.jpg' %}"
+         class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+    <div class="banner-wrapper-inner">
+        <h1 class="page-title">Feedback Information</h1>
+        <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            <ul class="trail-items breadcrumb">
+                <li class="trail-item trail-begin"><a href="/seller/shop"><span>Home</span></a></li>
+                <li class="trail-item trail-end active"><span>Feedback Information</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="mb-4">All Feedbacks</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Product</th>
+                <th>Content</th>
+                <th>Rating</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for feedback in feedbacks %}
+            <tr>
+                <td>{{ feedback.name.username }}</td>
+                <td>{{ feedback.email }}</td>
+                <td>{{ feedback.product.name }}</td>
+                <td>{{ feedback.content }}</td>
+                <td>{{ feedback.rating }} / 5</td>
+                <td>{{ feedback.created_at }}</td>
+                <td>{{ feedback.updated_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

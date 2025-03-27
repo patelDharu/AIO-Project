@@ -47,9 +47,27 @@
                                              src="{{ product.gallery.url }}"
                                              alt="{{ product.name }}" width="600" height="778">
                                     </a>
-                                    {% if product.offer %}
+                                    {% if product.stock == 0 %}
                                     <div class="flash">
-                                        <span class="onnew"><span class="text">New</span></span></div>
+                                        <h5 class="text-danger"><b>Out of Stock</b></h5>
+                                    </div>
+                                    {% else %}
+                                    <div class="group-button">
+                                        <div class="add-to-cart">
+                                            <form action="{% url 'add_to_cart' product.product_id %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="my_size" value="{{product.sizes.all.0}}">
+                                                <button style="all: unset; background: none; border: none; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer;" type="submit" class="button product_type_simple add_to_cart_button ajax_add_to_cart" tabindex="0"><i class="fa fa-shopping-cart"></i></button>
+                                            </form>
+                                        </div>
+                                        <div class="yith-wcwl-add-to-wishlist">
+                                            <form action="{% url 'add_to_wishlist' product.product_id %}" method="post">
+                                            {% csrf_token %}
+                                                <input type="hidden" name="my_size" value="{{product.sizes.all.0}}">
+                                                <button style="all: unset; background: none; border: none; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer;" type="submit" class="add_to_wishlist" tabindex="0"></button>
+                                            </form>
+                                        </div>
+                                    </div>
                                     {% endif %}
                                     <a href="#" class="button yith-wcqv-button" data-product_id="{{ product.product_id }}">Quick View</a>
                                 </div>
@@ -57,10 +75,12 @@
                                     <h3 class="product-name product_title">
                                         <a href="/prod_details/{{ product.product_id }}">{{ product.name }}</a>
                                     </h3>
+                                    <!--
                                     <div class="rating-wapper nostar">
                                         <div class="star-rating"><span style="width:0%">Rated <strong class="rating">0</strong> out of 5</span></div>
                                         <span class="review">(0)</span>
                                     </div>
+                                    -->
                                     <span class="price"><span class="lynessa-Price-amount amount"><span class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span></span>
                                     <div class="lynessa-product-details__short-description">
                                         <p>{{ product.description|truncatewords:20 }}</p>
@@ -74,18 +94,11 @@
                             </div>
                         </li>
                         {% empty %}
-      <div class="col-md-12">
-          <p>No product found.</p>
-      </div>
+                          <div class="col-md-12">
+                              <p>No product found.</p>
+                          </div>
                         {% endfor %}
                     </ul>
-                </div>
-                <div class="shop-control shop-after-control">
-                    <nav class="lynessa-pagination">
-                        <span class="page-numbers current">1</span>
-                        <a class="page-numbers" href="#">2</a>
-                        <a class="next page-numbers" href="#">Next</a>
-                    </nav>
                 </div>
             </div>
         </div>

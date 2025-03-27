@@ -41,25 +41,27 @@
                         </div>
                         <div class="col-md-6">
                             <div role="form" class="wpcf7">
-                                <form class="wpcf7-form">
+                                <form class="wpcf7-form" method="post" action="." id="contactForm">
+                                    {% csrf_token %}
                                     <p><label> Name *<br>
                                         <span class="wpcf7-form-control-wrap your-name">
-                                            <input name="your-name" value="" size="40"
+                                            <input name="name" size="40"
                                                    class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                   type="text"></span>
+                                                   type="text" required></span>
                                     </label></p>
                                     <p><label> Email *<br>
                                         <span class="wpcf7-form-control-wrap your-email">
-                                            <input name="your-email" value="" size="40"
+                                            <input name="email" size="40"
                                                    class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email"
-                                                   type="email"></span>
+                                                   type="email" id="user-email" required></span>
                                     </label></p>
                                     <p><label> Your Message *<br>
                                         <span class="wpcf7-form-control-wrap your-message">
-                                            <textarea name="your-message"
+                                            <textarea name="message"
                                                       cols="40" rows="10"
-                                                      class="wpcf7-form-control wpcf7-textarea"></textarea></span>
+                                                      class="wpcf7-form-control wpcf7-textarea" required></textarea></span>
                                     </label></p>
+                                    <div id="form-errors" style="color: red; margin-top: 10px;"></div>
                                     <p><input value="Send" class="wpcf7-form-control wpcf7-submit" type="submit"></p>
                                 </form>
                             </div>
@@ -70,4 +72,52 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('contactForm');
+
+        const emailField = document.getElementById('user-email');
+
+        const errorMessageDiv = document.getElementById('form-errors');
+
+        // Regular Expressions
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email format
+
+
+        // Validation function
+        function validateForm() {
+            let valid = true;
+            let errorMessages = [];
+
+
+            // Validate email
+            if (!emailRegex.test(emailField.value)) {
+                errorMessages.push("Please enter a valid email address.");
+                valid = false;
+            }
+
+
+            // Display error messages if any
+            if (!valid) {
+                errorMessageDiv.innerHTML = errorMessages.join("<br>");
+            } else {
+                errorMessageDiv.innerHTML = "";
+            }
+
+            return valid;
+        }
+
+        // Attach event listeners
+        form.addEventListener('submit', function (event) {
+            if (!validateForm()) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+
+        // Real-time validation (optional: you can check on input or blur)
+        emailField.addEventListener('input', validateForm);
+
+    });
+</script>
 {% endblock %}

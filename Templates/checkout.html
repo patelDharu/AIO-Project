@@ -23,8 +23,7 @@
                     <div class="lynessa">
                         <div class="lynessa-notices-wrapper"></div>
                         <form name="checkout" method="post" class="checkout lynessa-checkout"
-                              action="{% url 'place_order' %}" enctype="multipart/form-data"
-                              novalidate="novalidate">
+                              action="{% url 'place_order' %}" enctype="multipart/form-data" id="contactForm1">
                             {% csrf_token %}
                             <div class="col2-set" id="customer_details">
                                 <div class="col-1">
@@ -248,14 +247,14 @@
                                             <p class="form-row form-row-wide address-field validate-postcode"
                                                id="billing_postcode_field" data-priority="65"
                                                data-o_class="form-row form-row-wide address-field validate-postcode">
-                                                <label for="billing_postcode" class="">Postcode / ZIP&nbsp;<span
-                                                        class="optional">(optional)</span></label><span
+                                                <label for="zipcode" class="">Postcode / ZIP&nbsp;<span
+                                                        class="optional text-danger">*</span></label><span
                                                     class="lynessa-input-wrapper"><input type="text"
                                                                                              class="input-text "
                                                                                              name="billing_postcode"
-                                                                                             id="billing_postcode"
+                                                                                             id="zipcode"
                                                                                              placeholder="" value=""
-                                                                                             autocomplete="postal-code"></span>
+                                                                                             autocomplete="postal-code" required></span>
                                             </p>
                                             <p class="form-row form-row-wide address-field validate-required"
                                                id="billing_city_field" data-priority="70"
@@ -283,25 +282,25 @@
                                                                                              readonly="readonly"></span>
                                             </p>
                                             <p class="form-row form-row-wide validate-required validate-phone"
-                                               id="billing_phone_field" data-priority="100"><label for="billing_phone"
+                                               id="billing_phone_field" data-priority="100"><label for="user-phone"
                                                                                                    class="">Phone&nbsp;<abbr
                                                     class="required" title="required">*</abbr></label><span
-                                                    class="lynessa-input-wrapper"><input type="tel"
+                                                    class="lynessa-input-wrapper"><input type="text"
                                                                                              class="input-text "
                                                                                              name="billing_phone"
-                                                                                             id="billing_phone"
+                                                                                             id="user-phone"
                                                                                              placeholder="" value=""
                                                                                              autocomplete="tel" required></span>
                                             </p>
                                             <p class="form-row form-row-wide validate-required validate-email"
-                                               id="billing_email_field" data-priority="110"><label for="billing_email"
+                                               id="billing_email_field" data-priority="110"><label for="user_email"
                                                                                                    class="">Email
                                                 address&nbsp;<abbr class="required"
                                                                    title="required">*</abbr></label><span
                                                     class="lynessa-input-wrapper"><input type="email"
                                                                                              class="input-text "
                                                                                              name="billing_email"
-                                                                                             id="billing_email"
+                                                                                             id="user_email"
                                                                                              placeholder="" value=""
                                                                                              autocomplete="email username" required></span>
                                             </p></div>
@@ -417,7 +416,7 @@
                                                 <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#" class="lynessa-privacy-policy-link" target="_blank">privacy policy</a>.</p>
                                             </div>
                                         </div>
-                                        
+                                        <div id="form-errors1" style="color: red; margin-top: 10px;"></div>
                                         <button type="submit" class="button alt" name="lynessa_checkout_place_order"
                                                 id="place_order" value="Place order" data-value="Place order">Place
                                             order
@@ -436,4 +435,63 @@
         </div>
     </div>
 </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('contactForm1');
+        const phoneField = document.getElementById('user-phone');
+        const emailField = document.getElementById('user_email');
+        const zipField = document.getElementById('zipcode');
+        const errorMessageDiv = document.getElementById('form-errors1');
+
+        // Regular Expressions
+        const phoneRegex = /^[0-9]{10}$/; // 10 digits
+        const zipRegex = /^[0-9]{6}$/; // 6 digits
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email format
+
+        // Validation function
+        function validateForm() {
+            let valid = true;
+            let errorMessages = [];
+
+            // Validate phone number
+            if (!phoneRegex.test(phoneField.value)) {
+                errorMessages.push("Phone number must be exactly 10 digits.");
+                valid = false;
+            }
+
+            // Validate zipcode
+            if (!zipRegex.test(zipField.value)) {
+                errorMessages.push("ZIP code is not valid.");
+                valid = false;
+            }
+
+            // Validate email
+            if (!emailRegex.test(emailField.value)) {
+                errorMessages.push("Please enter a valid email address.");
+                valid = false;
+            }
+
+            // Display error messages if any
+            if (!valid) {
+                errorMessageDiv.innerHTML = errorMessages.join("<br>");
+            } else {
+                errorMessageDiv.innerHTML = "";
+            }
+
+            return valid;
+        }
+
+        // Attach event listeners
+        form.addEventListener('submit', function (event) {
+            if (!validateForm()) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+
+        // Real-time validation (optional: you can check on input or blur)
+        phoneField.addEventListener('input', validateForm);
+        zipField.addEventListener('input', validateForm);
+        emailField.addEventListener('input', validateForm);
+    });
+</script>
 {% endblock %}

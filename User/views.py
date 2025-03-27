@@ -7,6 +7,8 @@ import razorpay
 from seller.models import SellerPerson
 from django.contrib import messages 
 from django.contrib.auth.hashers import make_password,check_password
+
+from .admin import product_
 from .models import *
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -27,7 +29,8 @@ def index(request):
     dotd = product.objects.filter(dotd=True)
     new_arrival = get_object_or_404(category, id=1)
     new_arrival_prods = product.objects.filter(sub_category__category=new_arrival).order_by('-product_id')
-    return render(request, "index.html",{'main_category':catdata,'sub_category_one':sub_category_onedata,'sub_category':sub_categorydata,'dotd':dotd, 'new_arrival_prods':new_arrival_prods})
+    offers = product.objects.filter(offer=True).order_by('-product_id')
+    return render(request, "index.html",{'main_category':catdata,'sub_category_one':sub_category_onedata,'sub_category':sub_categorydata,'dotd':dotd, 'new_arrival_prods':new_arrival_prods, 'offers': offers})
 
 
 
@@ -54,7 +57,16 @@ def logreg(request):
             user.save()
             messages.success(request, 'Registration successful!')
             return redirect('index')
-    return render(request, "Accounts/logreg.html")
+
+    catdata = category.objects.all()
+    sub_category_onedata = sub_category_one.objects.all()
+    sub_categorydata = sub_category.objects.all()
+    param = {
+        'main_category':catdata,
+        'sub_category_one':sub_category_onedata,
+        'sub_category':sub_categorydata
+    }
+    return render(request, "Accounts/logreg.html", param)
 
 
 def user_login(request):
@@ -71,6 +83,7 @@ def user_login(request):
                 messages.error(request, 'Invalid password.')
         except UserProfile.DoesNotExist:
             messages.error(request, 'User does not exist.')
+            return redirect("logreg")
     return render(request, 'index.html')
 
 def user_logout(request):
@@ -81,19 +94,48 @@ def user_logout(request):
     return redirect('index')
 
 def contact(request):
-    return render(request, "contact.html")
+    if request.method == "POST":
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+        c = Contact.objects.create(name=name, email=email, message=message)
+        c.save()
+        return HttpResponse("<script>alert('Message sent!!!');window.location.href='/contact/';</script>")
+    catdata = category.objects.all()
+    sub_category_onedata = sub_category_one.objects.all()
+    sub_categorydata = sub_category.objects.all()
+    param = {
+        'main_category': catdata,
+        'sub_category_one': sub_category_onedata,
+        'sub_category': sub_categorydata,
+    }
+    return render(request, "contact.html", param)
 
 
 def about(request):
-    return render(request, "about.html")
+    catdata = category.objects.all()
+    sub_category_onedata = sub_category_one.objects.all()
+    sub_categorydata = sub_category.objects.all()
+    param = {
+        'main_category': catdata,
+        'sub_category_one': sub_category_onedata,
+        'sub_category': sub_categorydata,
+    }
+    return render(request, "about.html", param)
 
 
 def shop(request, category_id):
     categorys = get_object_or_404(category, id=category_id)
     products = product.objects.filter(sub_category__category=categorys)
+    catdata = category.objects.all()
+    sub_category_onedata = sub_category_one.objects.all()
+    sub_categorydata = sub_category.objects.all()
     context = {
         'category': categorys,
-        'products': products
+        'products': products,
+        'main_category': catdata,
+        'sub_category_one': sub_category_onedata,
+        'sub_category': sub_categorydata,
     }
     
     return render(request, 'shop.html', context)
@@ -101,8 +143,18 @@ def shop(request, category_id):
 def men(request,sub_category_id):
     sub_categorys = get_object_or_404(sub_category, id=sub_category_id)
     products = product.objects.filter(sub_category=sub_categorys)
+    catdata = category.objects.all()
+    sub_category_onedata = sub_category_one.objects.all()
+    sub_categorydata = sub_category.objects.all()
+    param = {
+        'main_category': catdata,
+        'sub_category_one': sub_category_onedata,
+        'sub_category': sub_categorydata,
+        'products': products,
+        'subcategory': sub_categorys,
+    }
 
-    return render(request, 'men.html', {'products': products, 'subcategory': sub_categorys})
+    return render(request, 'men.html', param)
 
 
 
@@ -111,11 +163,33 @@ def search(request):
     sub_categorys = f"Results for {str(query)}"
     products = product.objects.filter(name__icontains=str(query))
 
-    return render(request, 'men.html', {'products': products, 'subcategory': sub_categorys})
+    catdata = category.objects.all()
+    sub_category_onedata = sub_category_one.objects.all()
+    sub_categorydata = sub_category.objects.all()
+    param = {
+        'main_category': catdata,
+        'sub_category_one': sub_category_onedata,
+        'sub_category': sub_categorydata,
+        'products': products,
+        'subcategory': sub_categorys,
+    }
+
+    return render(request, 'men.html', param)
 
 def prod_details(request, product_id):
     products = get_object_or_404(product, product_id=product_id)  # Fetch the product by ID
-    return render(request, 'prod_details.html', {'products': products})
+    reviews = feedback.objects.filter(product__product_id=product_id).order_by('-id')
+    catdata = category.objects.all()
+    sub_category_onedata = sub_category_one.objects.all()
+    sub_categorydata = sub_category.objects.all()
+    param = {
+        'main_category': catdata,
+        'sub_category_one': sub_category_onedata,
+        'sub_category': sub_categorydata,
+        'products': products,
+        'reviews': reviews,
+    }
+    return render(request, 'prod_details.html', param)
 
 
 
@@ -132,12 +206,37 @@ def cart(request):
     else:
         cart_items = []
 
-    return render(request, 'cart.html', {'cart_items': cart_items, 'total_price': total_price})
+    catdata = category.objects.all()
+    sub_category_onedata = sub_category_one.objects.all()
+    sub_categorydata = sub_category.objects.all()
+    param = {
+        'main_category': catdata,
+        'sub_category_one': sub_category_onedata,
+        'sub_category': sub_categorydata,
+        'cart_items': cart_items,
+        'total_price': total_price
+    }
+
+    return render(request, 'cart.html', param)
 
 def add_to_cart(request, product_id):
     products = get_object_or_404(product, product_id=product_id)
     email = request.session.get('email')
     size = request.POST.get("my_size")
+    quantity = int(request.POST.get("quantity", 1))
+    update = request.POST.get("update")
+
+    if update == "True":
+        cart_id = int(request.POST.get("cart_id"))
+        cart_item = Cart.objects.get(cartid=cart_id)
+        cart_item.size = size
+        cart_item.quantity = quantity
+        cart_item.save()
+        return redirect("/cart/")
+
+    if quantity <= 0:
+        messages.warning(request, 'Invalid Quantity!')
+        return redirect('prod_details', product_id)
 
     if email:
         # Get or create the UserProfile based on the email
@@ -148,12 +247,12 @@ def add_to_cart(request, product_id):
         product=products,
         UserProfile=user_profile,
         size=size,
-        defaults={'quantity': 1}
+        defaults={'quantity': quantity}
     )
 
         if not created:
             # If the cart item already exists, just update the quantity
-            cart_item.quantity += 1
+            cart_item.quantity += quantity
             cart_item.save()
            
     else:
@@ -181,11 +280,30 @@ def checkout(request):
     else:
         cart_items = []
 
-    return render(request, 'checkout.html', {'cart_items': cart_items, 'total_price': total_price})
+    catdata = category.objects.all()
+    sub_category_onedata = sub_category_one.objects.all()
+    sub_categorydata = sub_category.objects.all()
+    param = {
+        'main_category': catdata,
+        'sub_category_one': sub_category_onedata,
+        'sub_category': sub_categorydata,
+        'cart_items': cart_items,
+        'total_price': total_price
+    }
+
+    return render(request, 'checkout.html', param)
 
 
 def my_account(request):
-    return render(request, "Accounts/my_account.html")
+    catdata = category.objects.all()
+    sub_category_onedata = sub_category_one.objects.all()
+    sub_categorydata = sub_category.objects.all()
+    param = {
+        'main_category': catdata,
+        'sub_category_one': sub_category_onedata,
+        'sub_category': sub_categorydata,
+    }
+    return render(request, "Accounts/my_account.html", param)
 
 
 def place_order(request):
@@ -210,11 +328,9 @@ def place_order(request):
             cart_items = Cart.objects.filter(UserProfile__email=email)
 
             if cart_items.exists()  and payment_method == 'COD':
-                total_price = sum(item.get_total_price() for item in cart_items)
-                
-                
                 for item in cart_items:
-                    Order.objects.create(
+                    total_price = item.get_total_price()
+                    s = Order.objects.create(
                         product=item.product,
                         UserProfile=user_profile,
                         seller_id=item.product.seller_id,
@@ -236,17 +352,21 @@ def place_order(request):
                         order_note=order_note,
                         payment_method=payment_method
                     )
+                    s.save()
+                    s.order_payment_id = s.orderid
+                    s.save()
 
                 cart_items.delete()                
                 messages.success(request, 'Your order has been placed successfully!')
                 return redirect('orders')  
 
             elif cart_items.exists() and payment_method == 'RAZORPAY':
-                total_price = sum(item.get_total_price() for item in cart_items)
-                amount = int(total_price * 100)
+                total_price1 = sum(item.get_total_price() for item in cart_items)
+                amount = int(total_price1 * 100)
                 
                 for item in cart_items:
-                    Order.objects.create(
+                    total_price = item.get_total_price()
+                    s = Order.objects.create(
                         product=item.product,
                         UserProfile=user_profile,
                         seller_id=item.product.seller_id,
@@ -255,7 +375,7 @@ def place_order(request):
                         size=item.size,
                         admin_cut=(total_price * 0.10),
                         total_price=total_price,
-                        status='Completed',
+                        status='Pending',
                         fname=fname,
                         lname=lname,
                         company_name=company_name,
@@ -268,6 +388,10 @@ def place_order(request):
                         order_note=order_note,
                         payment_method=payment_method
                     )
+                    s.save()
+                    s.order_payment_id = "TBU"
+                    s.save()
+
                 request.session['amount'] = amount
                 return redirect('payment')  # Ensure this matches the Razorpay payment page URL
 
@@ -293,7 +417,12 @@ def payment(request):
 
     # order id of newly created order.
     razorpay_order_id = razorpay_order['id']
-    callback_url = 'http://127.0.0.1:8000/payment/payment-handler/'
+    my_orders = Order.objects.filter(order_payment_id="TBU")
+    for mo in my_orders:
+        mo.order_payment_id = razorpay_order_id
+        mo.save()
+
+    callback_url = str(request.is_secure() and "https" or "http" + "://" + request.get_host() + "/payment/payment-handler/")
     context = {
         'razorpay_order_id': razorpay_order_id,
         'razorpay_merchant_key': settings.RAZOR_KEY_ID,
@@ -307,7 +436,6 @@ def payment(request):
 
 # ----------------------- VERIFY SIGNATURE  -----------------------------------
 @csrf_exempt
-@login_required
 def paymenthandler(request):
     # only accept POST request.
     if request.method == "POST":
@@ -366,7 +494,16 @@ def orders(request):
     if email:
         user_profile = get_object_or_404(UserProfile, email=email)
         orders = Order.objects.filter(UserProfile=user_profile).order_by('-ordered_at')
-        return render(request, 'Accounts/orders.html', {'orders': orders})
+        catdata = category.objects.all()
+        sub_category_onedata = sub_category_one.objects.all()
+        sub_categorydata = sub_category.objects.all()
+        param = {
+            'main_category': catdata,
+            'sub_category_one': sub_category_onedata,
+            'sub_category': sub_categorydata,
+            'orders': orders
+        }
+        return render(request, 'Accounts/orders.html', param)
     else:
         messages.error(request, 'Please log in to view your orders.')
         return redirect('logreg')
@@ -397,7 +534,18 @@ def wishlist(request):
         # Get all the products in the user's wishlist, including the size field
         wishlist_items = Wishlist.objects.filter(user_profile=user_profile)
 
-        return render(request, "wishlist.html", {"wishlist_items": wishlist_items})
+        catdata = category.objects.all()
+        sub_category_onedata = sub_category_one.objects.all()
+        sub_categorydata = sub_category.objects.all()
+        param = {
+            'main_category': catdata,
+            'sub_category_one': sub_category_onedata,
+            'sub_category': sub_categorydata,
+            'orders': orders,
+            "wishlist_items": wishlist_items
+        }
+
+        return render(request, "wishlist.html", param)
     else:
         return redirect('logreg')
 
@@ -408,6 +556,7 @@ def add_to_wishlist(request, product_id):
     if email:
         prod = get_object_or_404(product, product_id=product_id)
         size = request.POST.get('my_size')
+        quantity = int(request.POST.get('quantity', 1))
 
         # Get or create the UserProfile based on the email
         user_profile = get_object_or_404(UserProfile, email=email)
@@ -416,21 +565,25 @@ def add_to_wishlist(request, product_id):
         wishlist_item, created = Wishlist.objects.get_or_create(
             product=prod,
             user_profile=user_profile,
-            size=size
+            size=size,
+            defaults={'quantity': quantity}
         )
 
         if created:
             # Successfully added to wishlist
             messages.success(request, 'Item added to your Wishlist!')
         else:
-            messages.info(request, 'Item already exists in your Wishlist!')
+            wishlist_item.quantity += quantity
+            wishlist_item.save()
+            messages.info(request, 'Item already exists in your Wishlist, so updated!')
 
         return redirect('wishlist')  # Redirect to the wishlist page
     else:
         return redirect('logreg')
 
-def add_to_cart_from_wishlist(request, product_id, size):
+def add_to_cart_from_wishlist(request, product_id, size, q):
     email = request.session.get('email')
+    quantity = int(q)
     if email:
         # Get the user profile based on the email in the session
         user_profile = get_object_or_404(UserProfile, email=email)
@@ -441,11 +594,11 @@ def add_to_cart_from_wishlist(request, product_id, size):
             product=prod,
             UserProfile=user_profile,
             size=size,
-            defaults={'quantity': 1}
+            defaults={'quantity': quantity}
         )
         if not created:
             # If the item already exists in the cart, just increase the quantity
-            cart_item.quantity += 1
+            cart_item.quantity += quantity
             cart_item.save()
 
         # Remove the product from the wishlist after it's added to the cart
@@ -470,12 +623,16 @@ def SellerRegistration(request):
         Email1 = request.POST.get('email')
         pass1 = request.POST.get('p1')
         pass2 = request.POST.get('p2')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
 
-        if SellerPerson.objects.filter(email=Email1).exists():
+        if SellerPerson.objects.filter(username=uname).exists():
+            messages.info(request, 'Username already exists. Try another username.')
+        elif SellerPerson.objects.filter(email=Email1).exists():
             messages.info(request, 'Email Id already exists. Try another email.')
         else:
             if pass1 == pass2:  
-                myuser = SellerPerson(username=uname, email=Email1, password1=pass1, password2=pass2)
+                myuser = SellerPerson(username=uname, email=Email1, password1=pass1, password2=pass2, contact=phone, address=address)
                 myuser.save()
                 messages.success(request, 'Registration successful!')
                 return redirect('Sellerlogin')  
@@ -508,4 +665,17 @@ def SellerProfile(request):
 def SellerProduct(request):
     return render(request,"seller/SellerProduct.html")
 
+def FeedBack(request):
+    if request.method == "POST":
+        current_email = request.session['email']
+        name = UserProfile.objects.get(email=current_email)
+        email = name.email
+        rating = request.POST['rating']
+        content = request.POST['comment']
+        product_id = int(request.POST['prod_id'])
+        prod = product.objects.get(product_id=product_id)
 
+        f = feedback.objects.create(name=name, email=email, product=prod, content=content, rating=rating)
+        f.save()
+
+        return redirect(f"/prod_details/{product_id}/")

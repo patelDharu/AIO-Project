@@ -8,9 +8,19 @@
     <form action="/admin/User/order/order_report/" method="get">
         Start: <input type="date" name="start" required>
         End: <input type="date" name="end" required><br>
+        <input type="text" name="prod_name" placeholder="Product Name (optional)"><br>
         <input type="submit" name="_addanother" value="Download Bookings Report"><br><br>
     </form>
 </div>
+</center>
+{% endif %}
+{% if request.path == '/admin/seller/sellerperson/' %}
+<center>
+    <div class="text-center mb-3">
+        <form action="/admin/seller/sellerperson/order_report/" method="get">
+        <input type="submit" name="_addanother" value="Download Sellers Data"><br><br>
+    </form>
+    </div>
 </center>
 {% endif %}
 

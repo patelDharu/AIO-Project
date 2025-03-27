@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from User.models import *
-from .models import *
-from django.contrib import messages 
+from django.contrib import messages
+from .forms import *
 
 # Create your views here.
 
@@ -56,28 +56,45 @@ def shop(request):
         return redirect("seller:Sellerlogin")
 
 
-def edit_cat(request,id):
-    cat = category.objects.get(id = id)
-    if request.method == 'POST':
-        cat.name = request.POST['cname']
-        # cat.image = request.FILES['image']
-        if 'image' in request.FILES:
-            cat.image = request.FILES['image']
-        cat.save()
-        return render(request,"seller/add_cat.html",{'cat':cat})
-    else:
-        return render(request,"seller/add_cat.html",{'cat':cat})
-
 def add_cat(request):
     if request.method == "POST":
         name = request.POST.get('cname')
         image = request.FILES.get('image')
+        image2 = request.FILES.get('image2')
+        redirect_url1 = request.POST.get('redirect_url1')
+        redirect_url2 = request.POST.get('redirect_url2')
+        visibility = 'visibility' in request.POST
 
-        new_category = category(name=name, image=image)
+        new_category = category(
+            name=name,
+            image=image,
+            image2=image2,
+            redirect_url1=redirect_url1,
+            redirect_url2=redirect_url2,
+            visibility=visibility
+        )
         new_category.save()
 
         return redirect('seller:shop')
-    return render(request,"seller/add_cat.html")
+    return render(request, "seller/add_cat.html")
+
+# Edit category
+def edit_cat(request, id):
+    cat = category.objects.get(id=id)
+    if request.method == 'POST':
+        cat.name = request.POST['cname']
+        if 'image' in request.FILES:
+            cat.image = request.FILES['image']
+        if 'image2' in request.FILES:
+            cat.image2 = request.FILES['image2']
+        cat.redirect_url1 = request.POST['redirect_url1']
+        cat.redirect_url2 = request.POST['redirect_url2']
+        cat.visibility = 'visibility' in request.POST
+        cat.save()
+
+        return render(request, "seller/add_cat.html", {'cat': cat})
+    else:
+        return render(request, "seller/add_cat.html", {'cat': cat})
 
 def edit_prod(request,id):
     pro = product.objects.get(product_id = id)
@@ -197,3 +214,178 @@ def add_prod(request):
         return redirect('seller:shop')
     return render(request,"seller/add_prod.html",{'sub_cat':sub_cat, 'sizes': sizes})
 
+def orders_list(request):
+    s = SellerPerson.objects.get(email=request.session['ven_email'])
+    s_id = s.id
+    orders = Order.objects.filter(seller_id=s_id).order_by('-orderid')
+    return render(request, 'seller/orders_list.html', {'orders': orders, 'seller_id': s_id})
+
+
+# View to update an order
+def order_update(request, orderid):
+    order = get_object_or_404(Order, orderid=orderid)
+
+    if request.method == 'POST':
+        # Update the order with the new values from the form
+        order.fname = request.POST.get('fname')
+        order.lname = request.POST.get('lname')
+        order.company_name = request.POST.get('company_name')
+        order.country = request.POST.get('country')
+        order.street_address = request.POST.get('street_address')
+        order.postcode = request.POST.get('postcode')
+        order.city = request.POST.get('city')
+        order.phone = request.POST.get('phone')
+        order.email = request.POST.get('email')
+        order.order_note = request.POST.get('order_note')
+        order.payment_method = request.POST.get('payment_method')
+        order.status = request.POST.get('status')
+
+        # Save the updated order
+        order.save()
+
+        # Redirect to the order list page after updating
+        return redirect('seller:orders_list')
+
+    return render(request, 'seller/order_update.html', {'order': order})
+
+# View to delete an order
+def order_delete(request, orderid):
+    order = get_object_or_404(Order, orderid=orderid)
+    if request.method == 'POST':
+        order.delete()
+        return redirect('seller:orders_list')
+    return render(request, 'seller/order_delete.html', {'order': order})
+
+def users_list(request):
+    users = UserProfile.objects.all()
+    return render(request, 'seller/users_list.html', {'users': users})
+
+# View to edit a user's information (optional)
+def user_update(request, userid):
+    user = get_object_or_404(UserProfile, userid=userid)
+    if request.method == 'POST':
+        user.username = request.POST.get('username')
+        user.email = request.POST.get('email')
+        user.phone = request.POST.get('phone')
+        user.address = request.POST.get('address')
+        user.gender = request.POST.get('gender')
+        user.save()
+        return redirect('seller:users_list')
+    return render(request, 'seller/user_update.html', {'user': user})
+
+# View to delete a user (optional)
+def user_delete(request, userid):
+    user = get_object_or_404(UserProfile, userid=userid)
+    if request.method == 'POST':
+        user.delete()
+        return redirect('seller:users_list')
+    return render(request, 'seller/user_delete.html', {'user': user})
+
+
+def feedbacks_list(request):
+    s = SellerPerson.objects.get(email=request.session['ven_email'])
+    s_id = s.id
+    feedbacks = feedback.objects.filter(product__seller_id=s_id)
+    return render(request, 'seller/feedbacks_list.html', {'feedbacks': feedbacks})
+
+
+def sub_category_one_list(request):
+    sub_category_ones = sub_category_one.objects.all()
+    return render(request, 'seller/sub_category_one_list.html', {'sub_category_ones': sub_category_ones})
+
+# View to update a sub_category_one
+def sub_category_one_update(request, id):
+    subcat_one = get_object_or_404(sub_category_one, id=id)
+    if request.method == 'POST':
+        subcat_one.name = request.POST.get('name')
+        subcat_one.save()
+        return redirect('seller:sub_category_one_list')
+    return render(request, 'seller/sub_category_one_update.html', {'subcat_one': subcat_one})
+
+# View to delete a sub_category_one
+def sub_category_one_delete(request, id):
+    subcat_one = get_object_or_404(sub_category_one, id=id)
+    if request.method == 'POST':
+        subcat_one.delete()
+        return redirect('seller:sub_category_one_list')
+    return render(request, 'seller/sub_category_one_delete.html', {'subcat_one': subcat_one})
+
+
+# View to show all sub_category
+def sub_category_list(request):
+    sub_categories = sub_category.objects.all()
+    return render(request, 'seller/sub_category_list.html', {'sub_categories': sub_categories})
+
+# View to update a sub_category
+def sub_category_update(request, id):
+    # Get the subcategory that needs to be updated
+    subcat = get_object_or_404(sub_category, id=id)
+
+    # Fetch all categories and sub_category_ones to display in the form
+    categories = category.objects.all()
+    sub_category_ones = sub_category_one.objects.all()
+
+    if request.method == 'POST':
+        form = SubCategoryForm(request.POST)
+        if form.is_valid():
+            # Update the subcategory with the new data
+            subcat.name = form.cleaned_data['name']
+            subcat.category = form.cleaned_data['category']
+            subcat.sub_category_one = form.cleaned_data['sub_category_one']
+            subcat.save()
+            return redirect('seller:sub_category_list')  # Redirect to the list page
+    else:
+        # Initialize form with current subcategory data
+        form = SubCategoryForm(initial={
+            'name': subcat.name,
+            'category': subcat.category,
+            'sub_category_one': subcat.sub_category_one
+        })
+
+    return render(request, 'seller/sub_category_update.html', {
+        'form': form,
+        'subcat': subcat,
+        'categories': categories,
+        'sub_category_ones': sub_category_ones,
+    })
+
+# View to delete a sub_category
+def sub_category_delete(request, id):
+    subcat = get_object_or_404(sub_category, id=id)
+    if request.method == 'POST':
+        subcat.delete()
+        return redirect('seller:sub_category_list')
+    return render(request, 'seller/sub_category_delete.html', {'subcat': subcat})
+
+
+def sub_category_one_add(request):
+    if request.method == 'POST':
+        form = SubCategoryOneForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('seller:sub_category_one_list')
+    else:
+        form = SubCategoryOneForm()
+    return render(request, 'seller/sub_category_one_add.html', {'form': form})
+
+
+def sub_category_add(request):
+    if request.method == 'POST':
+        form = SubCategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('seller:sub_category_list')
+    else:
+        form = SubCategoryForm()
+    return render(request, 'seller/sub_category_add.html', {'form': form})
+
+def delete_cat(request, id):
+    cat = category.objects.get(id=id)
+    cat.delete()
+    return redirect('seller:shop')
+
+
+def delete_prod(request, id):
+    p = product.objects.get(product_id=id)
+    p.delete()
+    return redirect('seller:shop')

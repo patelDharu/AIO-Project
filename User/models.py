@@ -1,6 +1,9 @@
 from django.utils import timezone
 from django.db import models
 
+from seller.models import SellerPerson
+
+
 # Create your models here.
 
 class UserProfile(models.Model):
@@ -41,18 +44,8 @@ class payment(models.Model):
       status = models.CharField(max_length=20, default='PENDING')
 
       def _str_(self):
-        return self.name  
-      
-class feedback(models.Model):
-      customer_id = models.PositiveIntegerField()
-      product_name = models.CharField(max_length=50)  
-      content = models.TextField(help_text="Feedback content")
-      rating = models.PositiveIntegerField(help_text="Rating out of 5")
-      created_at = models.DateTimeField(auto_now_add=True)
-      updated_at = models.DateTimeField(auto_now=True)
-
-      def _str_(self):
         return self.name
+
 
 class offer(models.Model):
      product_id = models.PositiveIntegerField()
@@ -63,7 +56,7 @@ class offer(models.Model):
      end_date = models.DateField()
      is_active = models.BooleanField(default=True)
 
-     def _str_(self):
+     def __str__(self):
         return self.name
 
 class generatereport(models.Model):
@@ -80,6 +73,13 @@ class generatereport(models.Model):
 class category(models.Model):
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to='category',blank=True)
+    redirect_url1 = models.CharField(max_length=50, default="/", verbose_name="Redirect URL - Image 1 (Format: /shop/1/)")
+    image2 = models.ImageField(upload_to='category',blank=True)
+    redirect_url2 = models.CharField(max_length=50, default="/", verbose_name="Redirect URL - Image 2 (Format: /shop/1/)")
+    visibility = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
 
 class sub_category_one(models.Model):
     name = models.CharField(max_length=50)
@@ -99,6 +99,7 @@ class sub_category(models.Model):
 
 class Size(models.Model):
     SIZES = (
+        ('N/A', 'N/A'),
         ('S', 'S'),
         ('M', 'M'),
         ('L', 'L'),
@@ -150,7 +151,8 @@ class Wishlist(models.Model):
     wishlist_id = models.AutoField(primary_key=True)
     product = models.ForeignKey(product, on_delete=models.CASCADE)
     user_profile = models.ForeignKey(UserProfile, to_field='userid', on_delete=models.CASCADE)
-    size = models.CharField(max_length=50, blank=True, null=True)  # Add size field here
+    size = models.CharField(max_length=50, blank=True, null=True)
+    quantity = models.IntegerField(default=1)
     added_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -184,8 +186,31 @@ class Order(models.Model):
     email = models.CharField(max_length=150)
     order_note = models.CharField(max_length=150, blank=True, null=True)
     payment_method = models.CharField(max_length=20,choices=CHOICES, blank=True, null=True)
-
+    order_payment_id = models.CharField(max_length=50, blank=True, null=True)
     status = models.CharField(max_length=20, default='Pending')
 
     def __str__(self):
         return self.status
+
+
+class feedback(models.Model):
+    name = models.ForeignKey(UserProfile, to_field='userid', on_delete=models.CASCADE, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    product = models.ForeignKey(product, to_field='product_id', on_delete=models.CASCADE, blank=True, null=True)
+    content = models.TextField(help_text="Feedback content")
+    rating = models.PositiveIntegerField(help_text="Rating out of 5")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name.username
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=50)
+    email = models.EmailField()
+    message = models.TextField()
+    submit_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

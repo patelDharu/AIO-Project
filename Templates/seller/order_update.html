@@ -1,0 +1,99 @@
+{% extends 'seller/vendor_base.html' %}
+{% load static %}
+{% block body %}
+<div class="banner-wrapper has_background">
+    <img src="{% static 'assets/images/banner-for-all2.jpg' %}"
+         class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+    <div class="banner-wrapper-inner">
+        <h1 class="page-title">Seller Order Info</h1>
+        <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            <ul class="trail-items breadcrumb">
+                <li class="trail-item trail-begin"><a href="/seller/shop"><span>Home</span></a></li>
+                <li class="trail-item trail-end active"><span>Seller Order Info</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <h2>Order Info</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="product">Product</label>
+            <input type="text" class="form-control" id="product" name="product" value="{{ order.product.name }}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" class="form-control" id="fname" name="fname" value="{{ order.fname }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" class="form-control" id="lname" name="lname" value="{{ order.lname }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="company_name">Company Name</label>
+            <input type="text" class="form-control" id="company_name" name="company_name" value="{{ order.company_name }}">
+        </div>
+
+        <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" class="form-control" id="country" name="country" value="{{ order.country }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="street_address">Street Address</label>
+            <input type="text" class="form-control" id="street_address" name="street_address" value="{{ order.street_address }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="postcode">Postcode</label>
+            <input type="text" class="form-control" id="postcode" name="postcode" value="{{ order.postcode }}">
+        </div>
+
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" name="city" value="{{ order.city }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ order.phone }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ order.email }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="order_note">Order Note</label>
+            <input type="text" class="form-control" id="order_note" name="order_note" value="{{ order.order_note }}">
+        </div>
+
+        <div class="form-group">
+            <label for="payment_method">Payment Method</label>
+            <select class="form-control" id="payment_method" name="payment_method" required>
+                <option value="COD" {% if order.payment_method == 'COD' %}selected{% endif %}>Cash on Delivery</option>
+                <option value="RAZORPAY" {% if order.payment_method == 'RAZORPAY' %}selected{% endif %}>Razorpay</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="status">
+                <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                <option value="Shipped" {% if order.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

@@ -21,6 +21,7 @@
             <div class="main-content col-md-12">
                 <div class="page-main-content">
                     <div class="lynessa">
+                        <!--
                         <nav class="lynessa-MyAccount-navigation">
                             <ul>
                                 <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--dashboard">
@@ -43,16 +44,17 @@
                                 </li>
                             </ul>
                         </nav>
+                        -->
                         <div class="lynessa-MyAccount-content">
                             <div class="lynessa-notices-wrapper"></div>
-                            <table class="lynessa-orders-table lynessa-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table">
+                            <table class="lynessa-orders-table lynessa-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table text-center">
                                 <thead>
                                 <tr>
                                     <th class="lynessa-orders-table__header lynessa-orders-table__header-order-number"><span class="nobr">Order</span></th>
                                     <th class="lynessa-orders-table__header lynessa-orders-table__header-order-date"><span class="nobr">Date</span></th>
                                     <th class="lynessa-orders-table__header lynessa-orders-table__header-order-status"><span class="nobr">Status</span></th>
+                                    <th class="lynessa-orders-table__header lynessa-orders-table__header-order-status"><span class="nobr">Size</span></th>
                                     <th class="lynessa-orders-table__header lynessa-orders-table__header-order-total"><span class="nobr">Total</span></th>
-                                    <th class="lynessa-orders-table__header lynessa-orders-table__header-order-actions"><span class="nobr">Actions</span></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -68,10 +70,10 @@
                                         {{ order.status }}
                                     </td>
                                     <td class="lynessa-orders-table__cell lynessa-orders-table__cell-order-total" data-title="Total">
-                                        <span class="lynessa-Price-amount amount"><span class="lynessa-Price-currencySymbol">₹</span>{{ order.product.price }}</span> for {{ order.quantity }} items
+                                        {{ order.size }}
                                     </td>
-                                    <td class="lynessa-orders-table__cell lynessa-orders-table__cell-order-actions" data-title="Actions">
-                                        <a href="/track" class="lynessa-button button view">Track</a>
+                                    <td class="lynessa-orders-table__cell lynessa-orders-table__cell-order-total" data-title="Total">
+                                        <span class="lynessa-Price-amount amount"><span class="lynessa-Price-currencySymbol">₹</span>{{ order.total_price }}</span> for {{ order.quantity }} items
                                     </td>
                                 </tr>
                                 {% empty %}

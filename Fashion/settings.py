@@ -136,3 +136,5 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'/image')"""
 
 RAZOR_KEY_ID = 'rzp_test_F9gRSjaJozWYhc'
 RAZOR_KEY_SECRET = 'tSdNYZSrIL2xf86MVtj4J3MY'
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"

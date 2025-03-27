@@ -1,0 +1,21 @@
+{% extends 'seller/vendor_base.html' %}
+{% load static %}
+{% block body %}
+<div class="banner-wrapper has_background">
+    <img src="{% static 'assets/images/banner-for-all2.jpg' %}"
+         class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+    <div class="banner-wrapper-inner">
+        <h1 class="page-title">Confirmation Required</h1>
+    </div>
+</div>
+<div class="container mt-5">
+    <h2>Are you sure you want to delete this user?</h2>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'seller:users_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

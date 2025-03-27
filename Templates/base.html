@@ -212,6 +212,15 @@
         }
     </style>
 
+    <style>
+        .category-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Adds spacing between items */
+        }
+
+    </style>
+
 </head>
 
 <body>
@@ -360,11 +369,12 @@
                                     <li id="menu-item-228"
                                         class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-228 parent parent-megamenu item-megamenu">
                                         <a class="lynessa-menu-item-title" title="Shop" href="/shop/{{ i.id }}">{{i.name }}</a>
+                                        {% if i.visibility %}
                                         <span class="toggle-submenu"></span>
                                         <div class="sub-menu megamenu megamenu-elements"
                                             style="max-width:1110; left: -447.469px;">
                                             <div class="row">
-                                                <div class="col-md-2">
+                                                <div class="col-md-6">
                                                     <div class="lynessa-listitem style-01">
                                                         <div class="listitem-inner">
                                                             {% comment %} {% for k in sub_category_one %}
@@ -372,44 +382,55 @@
                                                             {% if j.sub_category_one == k and j.category == i %}
                                                             <h4 class="title">{{ k.name }}</h4>
                                                             <ul class="listitem-list">
-                                                                <li><a href="/men/{{ j.id }}" target="_self">{{ j.name
-                                                                        }}</a></li>
+                                                                <li>
+                                                                    <a href="/men/{{ j.id }}" target="_self">{{ j.name }}</a>
+                                                                </li>
                                                             </ul>
                                                             {% endif %}
                                                             {% endfor %}
                                                             {% endfor %} {% endcomment %}
 
+                                                            <div class="category-wrapper ml-4">
                                                             {% for k in sub_category_one %}
-                                                            {% ifchanged k.name %}
-                                                            <h4 class="title">{{ k.name }}</h4>
-                                                            <ul class="listitem-list">
-                                                                {% for j in sub_category %}
-                                                                {% if j.sub_category_one == k and j.category == i %}
-                                                                <li>
-                                                                    <a href="/men/{{ j.id }}" target="_self">{{ j.name}}</a>
-                                                                </li>
-                                                                {% endif %}
-                                                                {% endfor %}
-                                                            </ul>
-                                                            {% endifchanged %}
+                                                                {% ifchanged k.name %}
+                                                                    <ul class="listitem-list">
+                                                                        <h4 class="title">{{ k.name }}</h4>
+                                                                        {% for j in sub_category %}
+                                                                            {% if j.sub_category_one == k and j.category == i %}
+                                                                                <li>
+                                                                                    <a href="/men/{{ j.id }}" target="_self">{{ j.name }}</a>
+                                                                                </li>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                {% endifchanged %}
                                                             {% endfor %}
+                                                        </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-10 col-lg3 col-sm-4">
+                                                <div class="col-md-6">
                                                     <div class="dreaming_single_image dreaming_content_element az_align_left shadow-img">
                                                         <figure class="dreaming_wrapper az_figure">
                                                         <a class="thumb-link"
-                                                            href="/prod_details" tabindex="0">
+                                                            href="{{i.redirect_url1}}" tabindex="0">
                                                             <img class="img-responsive"
-                                                                src="{{i.image.url}}"
-                                                                alt="KNIT LIKE" width="270" height="350">
+                                                                src="/media/{{i.image}}"
+                                                                alt="KNIT LIKE" width="200" height="200">
+                                                        </a>
+                                                        <a class="thumb-link"
+                                                            href="{{i.redirect_url2}}" tabindex="0">
+                                                            <img class="img-responsive"
+                                                                src="/media/{{i.image2}}"
+                                                                alt="KNIT LIKE" width="200" height="200">
                                                         </a>
                                                         </figure>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        {% endif %}
                                     </li>
                                     {% endfor %}
 
@@ -882,6 +903,12 @@
                                         class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-996 parent parent-megamenu item-megamenu">
                                         <a class="lynessa-menu-item-title" title="Blog" href="/about">About us</a>
                                     </li>
+                                    {% if request.session.email %}
+                                    <li id="menu-item-996"
+                                        class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-996 parent parent-megamenu item-megamenu">
+                                        <a class="lynessa-menu-item-title" title="My Orders" href="/orders">My Orders</a>
+                                    </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -1053,6 +1080,7 @@
     <footer id="footer" class="footer style-04">
         <div class="section-025 mt-4">
             <div class="container">
+                <!--
                 <div class="row">
                     <div class="col-md-6 col-lg-3">
                         <div class="lynessa-listitem style-04">
@@ -1171,6 +1199,7 @@
                         </div>
                     </div>
                 </div>
+                -->
                 <div class="logo-footer">
                     <img src="{% static 'assets/images/navlogo1.png' %}" class="az_single_image-img attachment-full"
                         alt="img" style="height: 70px; width: 150px;">

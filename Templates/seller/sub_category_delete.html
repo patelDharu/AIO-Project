@@ -1,0 +1,18 @@
+{% extends 'seller/vendor_base.html' %}
+{% load static %}
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container mt-5">
+    <h2>Are you sure you want to delete {{ subcat.name }}?</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'seller:sub_category_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

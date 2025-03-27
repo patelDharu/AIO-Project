@@ -128,7 +128,10 @@ class SellerPerson(models.Model):
     email = models.EmailField()
     password1 = models.CharField(max_length=255,)
     password2 = models.CharField(max_length=255)
+    contact = models.CharField(max_length=10, default="")
+    address = models.TextField(default="")
+    join_date = models.DateField(auto_now_add=True, blank=True, null=True)
     
-    REQUIRED_FIELDS = ['username','email','password1','password2']
+    REQUIRED_FIELDS = ['username','email','password1','password2','contact','address']
     def __str__(self):
         return self.username

@@ -9,10 +9,10 @@
 </head>
 <body class="vh-100 d-flex align-items-center justify-content-end" style="background: url('https://th.bing.com/th/id/OIP.bQsea6hFLJXUyd2AA-ca2wHaFj?rs=1&pid=ImgDetMain') no-repeat center center/cover;">
 
-    <div class="container d-flex  justify-content-end align-items-center vh-100 ">
-        <div class="card shadow p-4" style="width: 400px; background: rgba(0, 0, 0, 0.2);">
+    <div class="container d-flex  justify-content-end align-items-center vh-100 mt-4">
+        <div class="card shadow p-4" style="width: 500px; background: rgba(0, 0, 0, 0.2);">
             <h3 class="text-center mb-4">Register</h3>
-            <form method="post" action="#">
+            <form method="post" action="#" id="contactForm1">
                 <div class="mb-3">
                     {% csrf_token %}
                     <label for="name" class="form-label">Full Name</label>
@@ -20,14 +20,24 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter email" required name="email">
+                    <label for="user-phone" class="form-label">Contact No.</label>
+                    <input type="text" class="form-control" id="user-phone" placeholder="Contact No." required name="phone">
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="address" placeholder="Enter address" required name="address">
+                </div>
+
+                <div class="mb-3">
+                    <label for="user_email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="user_email" placeholder="Enter email" required name="email">
+                </div>
+
+                <div class="mb-3">
+                    <label for="user_password" class="form-label">Password</label>
                     <div class="input-group">
-                        <input type="password" class="form-control" id="password" placeholder="Enter password" required name="p1">
+                        <input type="password" class="form-control" id="user_password" placeholder="Enter password" required name="p1">
                        
                     </div>
                 </div>
@@ -36,11 +46,11 @@
                     <label for="confirm-password" class="form-label">Confirm Password</label>
                     <div class="input-group">
                         <input type="password" class="form-control" id="confirm-password" placeholder="Confirm password" required name="p2">
-                        {% for msg in messages %} {{ msg }}  {% endfor %}
-                       
+
                     </div>
                 </div>
-
+                <div id="form-errors1" style="color: red; margin-top: 10px;"></div>
+                {% for msg in messages %} {{ msg }}  {% endfor %}
                 <button type="submit" class="btn btn-primary w-100">Register</button>{{n}}
 
                 <div class="text-center mt-3">
@@ -49,5 +59,64 @@
             </form>
         </div>
     </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('contactForm1');
+        const phoneField = document.getElementById('user-phone');
+        const emailField = document.getElementById('user_email');
+        const passwordField = document.getElementById('user_password');
+        const errorMessageDiv = document.getElementById('form-errors1');
+
+        // Regular Expressions
+        const phoneRegex = /^[0-9]{10}$/; // 10 digits
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email format
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/; // 8 chars, mix of upper, lower, digits, and special chars
+
+        // Validation function
+        function validateForm() {
+            let valid = true;
+            let errorMessages = [];
+
+            // Validate phone number
+            if (!phoneRegex.test(phoneField.value)) {
+                errorMessages.push("Phone number must be exactly 10 digits.");
+                valid = false;
+            }
+
+            // Validate email
+            if (!emailRegex.test(emailField.value)) {
+                errorMessages.push("Please enter a valid email address.");
+                valid = false;
+            }
+
+            // Validate password
+            if (!passwordRegex.test(passwordField.value)) {
+                errorMessages.push("Password must be at least 8 characters, with upper/lowercase letters, digits, and special characters.");
+                valid = false;
+            }
+
+            // Display error messages if any
+            if (!valid) {
+                errorMessageDiv.innerHTML = errorMessages.join("<br>");
+            } else {
+                errorMessageDiv.innerHTML = "";
+            }
+
+            return valid;
+        }
+
+        // Attach event listeners
+        form.addEventListener('submit', function (event) {
+            if (!validateForm()) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+
+        // Real-time validation (optional: you can check on input or blur)
+        phoneField.addEventListener('input', validateForm);
+        emailField.addEventListener('input', validateForm);
+        passwordField.addEventListener('input', validateForm);
+    });
+</script>
 </body>
 </html>

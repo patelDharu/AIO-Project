@@ -26,32 +26,33 @@
                         <div class="u-columns col2-set" id="customer_login">
                             <div class="u-column1 col-1">
                                 <h2>Login</h2>
-                                <form class="lynessa-form lynessa-form-login login" method="post" action="{% url 'login' %}">
+                                <form class="lynessa-form lynessa-form-login login" method="post" action="{% url 'login' %}" id="contactForm">
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
                                         {% csrf_token %}
-                                        <label for="username">Email address&nbsp;<span
+                                        <label for="user-email">Email address&nbsp;<span
                                                 class="required">*</span></label>
                                         <input type="text" class="lynessa-Input lynessa-Input--text input-text"
-                                               name="email" id="email" autocomplete="username" value=""></p>
+                                               name="email" id="user-email" autocomplete="username" value=""></p>
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
-                                        <label for="password">Password&nbsp;<span class="required">*</span></label>
-                                        <input class="lynessa-Input lynessa-Input--text input-text"
-                                               type="password" name="password" id="password"
-                                               autocomplete="current-password">
+                                        <label for="user-password">Password&nbsp;<span class="required">*</span></label>
+                                        <input required class="lynessa-Input lynessa-Input--text input-text"
+                                               type="password" name="password" id="user-password">
                                     </p>
+                                    <!--
                                     <p class="d-flex justify-content-between align-items-center">
                                         <input type="checkbox" value="" class="form-check-input me-2">
                                         <span for="form2Example3">
                                           Remember me
                                         </span>
                                     </p>
-                                      <a href="#!" class="text-body">Forgot password?</a>
+                                      <a href="#!" class="text-body">Forgot password?</a>-->
                                       <a href="/Sellerlogin/" class="text-body" style="float:right;">Seller Login?</a>
                                 </p>
                                     <p class="form-row">
                                         <input type="hidden" id="lynessa-login-nonce" name="lynessa-login-nonce"
                                                value="832993cb93"><input type="hidden" name="_wp_http_referer"
                                                                          value="/lynessa/my-account/">
+                                        <div id="form-errors" style="color: red; margin-top: 10px;"></div>
                                         <button type="submit" class="lynessa-Button button" name="login"
                                                 value="Log in">Log in
                                         </button>
@@ -61,39 +62,39 @@
                             </div>
                             <div class="u-column2 col-2">
                                 <h2>Register</h2>
-                                <form method="post" class="lynessa-form lynessa-form-register register" action="{% url 'logreg' %}">
+                                <form method="post" class="lynessa-form lynessa-form-register register" action="{% url 'logreg' %}" id="contactForm1">
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
                                         {% csrf_token %}
                                         <label for="username">Username</label>
                                         <input type="name" class="lynessa-Input lynessa-Input--text input-text"
-                                               name="name" id="name" autocomplete="email" value="" required>
+                                               name="name" id="username" autocomplete="email" value="" required>
                                     </p>
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
-                                        <label for="reg_email">Email address&nbsp;<span
+                                        <label for="user_email">Email address&nbsp;<span
                                                 class="required">*</span></label>
                                         <input type="email" class="lynessa-Input lynessa-Input--text input-text"
-                                               name="email" id="email" autocomplete="email" value="" required>
+                                               name="email" id="user_email" autocomplete="email" value="" required>
                                     </p>
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
-                                        <label for="reg_pass">Password&nbsp;<span
+                                        <label for="user_password">Password&nbsp;<span
                                                 class="required">*</span></label>
                                         <input type="password" class="lynessa-Input lynessa-Input--text input-text"
-                                               name="password" id="password" autocomplete="current-password" value="" required>
+                                               name="password" id="user_password" autocomplete="current-password" value="" required>
                                     </p>
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
-                                        <label for="reg_pass">Confirm Password&nbsp;<span
+                                        <label for="user_password_c">Confirm Password&nbsp;<span
                                                 class="required">*</span></label>
                                         <input type="password" class="lynessa-Input lynessa-Input--text input-text"
-                                               name="c_password" id="c_password" autocomplete="current-password" value="" required>
+                                               name="c_password" id="user_password_c" autocomplete="current-password" value="" required>
                                     </p>
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
-                                        <label for="phone_no">Phone Number</label>
-                                        <input type="text" name="phone" id="phone" data-validation="number" data-validation-allowing="negative,number" input name="color" data-validation="number" datavalidation-ignore="$" required="required" class="form-control" id="phone_no" placeholder="Phone Number">
+                                        <label for="user-phone">Phone Number</label>
+                                        <input type="text" name="phone" id="user-phone" data-validation="number" data-validation-allowing="negative,number" input name="color" data-validation="number" datavalidation-ignore="$" required="required" class="form-control" id="phone_no" placeholder="Phone Number">
                                     </p>
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
                                         <label for="address">Address</label>
                                         <input type="address" class="lynessa-Input lynessa-Input--text input-text"
-                                             name="address" id="address" autocomplete="address" value="">
+                                             name="address" id="address" autocomplete="address" value="" required>
                                     </p>
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
                                         <label for="zipcode">Zip Code</label>
@@ -107,6 +108,7 @@
                                           <option value="Male">Male</option>
                                         </select>
                                     </p>
+                                    <div id="form-errors1" style="color: red; margin-top: 10px;"></div>
                                     <div class="lynessa-privacy-policy-text"><p>Your personal data will be used to
                                         support your experience throughout this website, to manage access to your
                                         account, and for other purposes described in our <a
@@ -132,5 +134,119 @@
         </div>
     </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('contactForm');
+        const emailField = document.getElementById('user-email');
+
+        const errorMessageDiv = document.getElementById('form-errors');
+
+        // Regular Expressions
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email format
+
+        // Validation function
+        function validateForm() {
+            let valid = true;
+            let errorMessages = [];
+
+            // Validate email
+            if (!emailRegex.test(emailField.value)) {
+                errorMessages.push("Please enter a valid email address.");
+                valid = false;
+            }
+
+            // Display error messages if any
+            if (!valid) {
+                errorMessageDiv.innerHTML = errorMessages.join("<br>");
+            } else {
+                errorMessageDiv.innerHTML = "";
+            }
+
+            return valid;
+        }
+
+        // Attach event listeners
+        form.addEventListener('submit', function (event) {
+            if (!validateForm()) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+
+        // Real-time validation (optional: you can check on input or blur)
+        emailField.addEventListener('input', validateForm);
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('contactForm1');
+        const phoneField = document.getElementById('user-phone');
+        const emailField = document.getElementById('user_email');
+        const zipField = document.getElementById('zipcode');
+        const passwordField = document.getElementById('user_password');
+        const errorMessageDiv = document.getElementById('form-errors1');
+
+        // Regular Expressions
+        const phoneRegex = /^[0-9]{10}$/; // 10 digits
+        const zipRegex = /^[0-9]{6}$/; // 6 digits
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email format
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/; // 8 chars, mix of upper, lower, digits, and special chars
+
+        // Validation function
+        function validateForm() {
+            let valid = true;
+            let errorMessages = [];
+
+            // Validate phone number
+            if (!phoneRegex.test(phoneField.value)) {
+                errorMessages.push("Phone number must be exactly 10 digits.");
+                valid = false;
+            }
+
+            // Validate zipcode
+            if (!zipRegex.test(zipField.value)) {
+                errorMessages.push("ZIP code is not valid.");
+                valid = false;
+            }
+
+            // Validate email
+            if (!emailRegex.test(emailField.value)) {
+                errorMessages.push("Please enter a valid email address.");
+                valid = false;
+            }
+
+            // Validate password
+            if (!passwordRegex.test(passwordField.value)) {
+                errorMessages.push("Password must be at least 8 characters, with upper/lowercase letters, digits, and special characters.");
+                valid = false;
+            }
+
+            // Display error messages if any
+            if (!valid) {
+                errorMessageDiv.innerHTML = errorMessages.join("<br>");
+            } else {
+                errorMessageDiv.innerHTML = "";
+            }
+
+            return valid;
+        }
+
+        // Attach event listeners
+        form.addEventListener('submit', function (event) {
+            if (!validateForm()) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+
+        // Real-time validation (optional: you can check on input or blur)
+        phoneField.addEventListener('input', validateForm);
+        zipField.addEventListener('input', validateForm);
+        emailField.addEventListener('input', validateForm);
+        passwordField.addEventListener('input', validateForm);
+    });
+</script>
+
 
 {% endblock %}

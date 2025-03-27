@@ -1,0 +1,18 @@
+{% extends 'seller/vendor_base.html' %}
+{% load static %}
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container mt-5">
+    <h2>Add New Sub Category</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Add Sub Category</button>
+    </form>
+</div>
+{% endblock %}
