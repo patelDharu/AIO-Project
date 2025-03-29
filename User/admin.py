@@ -266,3 +266,4 @@ class seller_(admin.ModelAdmin):
         return custom_url + urls
 
 admin.site.register(SellerPerson,seller_)
+admin.site.register(Progress)

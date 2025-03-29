@@ -252,41 +252,45 @@
                                  aria-describedby="slick-slide-control10">
                                 <div class="product-inner">
                                     <div class="product-thumb">
-                                        <a class="thumb-link" href="/prod_details/{{d.product_id}}"
+                                        <a class="thumb-link" href="/prod_details/{{d.product.product_id}}"
                                            tabindex="0">
                                             <img class="img-responsive"
-                                                 src="{{d.gallery.url}}"
+                                                 src="{{d.product.gallery.url}}"
                                                  alt="IMG" width="275" height="310">
                                         </a>
                                     </div>
                                     <div class="product-info equal-elem"  >
                                         <h3 class="product-name product_title">
-                                            <a href="/prod_details/{{d.product_id}}" tabindex="0">{{d.name}}</a>
+                                            <a href="/prod_details/{{d.product.product_id}}" tabindex="0">{{d.product.name}}</a>
                                         </h3>
                                         <span class="price">
                                             <ins>
                                                 <span class="lynessa-Price-amount amount">
-                                                    <span class="lynessa-Price-currencySymbol">₹</span>{{d.price}}</span>
+                                                    <span class="lynessa-Price-currencySymbol">₹</span>{{d.product.price}}</span>
                                             </ins>
                                         </span>
                                         <div class="process-valiable">
                                             <div class="valiable-text">
                                                 <span class="text">
-                                                    46% Already Sold
+                                                    {{ d.percentage_sold }}% Already Sold
                                                 </span>
                                                 <span class="text">
-                                                    Available:<span>{{d.stock}}</span>
+                                                    Available:<span>{{d.availability}}</span>
                                                 </span>
                                             </div>
                                             <span class="valiable-total total">
-                                                <span class="process" style="width: 46%"></span>
+                                                <span class="process" style="width: {{ d.percentage_sold }}%"></span>
                                             </span>
                                         </div>
                                         <div class="add-to-cart">
-                                            <form action="{% url 'add_to_cart' d.product_id %}" method="post">
+                                            <form action="{% url 'add_to_cart' d.product.product_id %}" method="post">
                                                 {% csrf_token %}
-                                                <input type="hidden" name="my_size" value="{{d.sizes.all.0}}">
+                                                <input type="hidden" name="my_size" value="{{d.product.sizes.all.0}}">
+                                                {% if d.percentage_sold == 100 %}
+                                                <button disabled type="submit" class="button product_type_simple add_to_cart_button ajax_add_to_cart" tabindex="0"><i class="fa fa-shopping-cart"></i>  SOLD OUT</button>
+                                                {% else %}
                                                 <button type="submit" class="button product_type_simple add_to_cart_button ajax_add_to_cart" tabindex="0"><i class="fa fa-shopping-cart"></i>  Add to cart</button>
+                                                {% endif %}
                                             </form>
                                         </div>
                                     </div>

@@ -96,65 +96,6 @@ def edit_cat(request, id):
     else:
         return render(request, "seller/add_cat.html", {'cat': cat})
 
-def edit_prod(request,id):
-    pro = product.objects.get(product_id = id)
-    sub_cat = sub_category.objects.all()
-    sizes = Size.objects.all()  # Get all sizes for the dropdown
-
-    if request.method == "POST":
-        # Get form data
-        name = request.POST.get('name')
-        description = request.POST.get('comment')
-        price = request.POST.get('price')
-        stock = request.POST.get('stock')
-        offer = 'offer' in request.POST  # If the offer checkbox is checked
-        dotd = 'dotd' in request.POST  # If the deal-of-the-day checkbox is checked
-        sub_category_id = request.POST.get('category')  # Get the selected subcategory
-
-        # Handle the image uploads
-        gallery_image = request.FILES.get('gallery')  # main image
-        img2 = request.FILES.get('img2')
-        img3 = request.FILES.get('img3')
-        img4 = request.FILES.get('img4')
-
-        # Handle the selected subcategory
-        subcategory = sub_category.objects.get(id=sub_category_id)
-
-        # Update the product instance
-        pro.name = name
-        pro.description = description
-        pro.price = price
-        pro.stock = stock
-        pro.offer = offer
-        pro.dotd = dotd
-        pro.sub_category = subcategory
-
-        # Handle updating the size (assuming one size is selected)
-        size_selected = request.POST.get('size')
-        selected_size = Size.objects.get(id=size_selected)
-        pro.sizes.clear()  # Clear previous sizes (if any)
-        pro.sizes.add(selected_size)  # Add the new size
-
-        # Handle updating images (if provided)
-        if gallery_image:
-            pro.gallery = gallery_image
-        if img2:
-            pro.img2 = img2
-        if img3:
-            pro.img3 = img3
-        if img4:
-            pro.img4 = img4
-
-        # Save the updated product
-        pro.save()
-
-        # Redirect to product list or another page after editing
-        return redirect('seller:shop')
-
-    # Render the edit product page
-    return render(request, "seller/add_prod.html", {'pro': pro, 'sub_cat': sub_cat, 'sizes': sizes})
-
-
 def add_prod(request):
     sub_cat = sub_category.objects.all()
     sizes = Size.objects.all()
@@ -192,10 +133,11 @@ def add_prod(request):
         # Save the product without images first
         new_product.save()
 
-        # Handle saving the size (assuming only one size is selected)
-        size_selected = request.POST.get('size')  # Get the selected size (only one option in this case)
-        selected_size = Size.objects.get(id=size_selected)
-        new_product.sizes.add(selected_size)  # Add the size to the many-to-many relationship
+        # Handle saving the sizes (multiple sizes selected)
+        selected_sizes = request.POST.getlist('sizes')  # Get the selected size IDs
+        for size_id in selected_sizes:
+            selected_size = Size.objects.get(id=size_id)
+            new_product.sizes.add(selected_size)  # Add the sizes to the product
 
         # Handle saving the images
         if gallery_image:
@@ -213,6 +155,66 @@ def add_prod(request):
         # Redirect to product list page (you can change the URL here)
         return redirect('seller:shop')
     return render(request,"seller/add_prod.html",{'sub_cat':sub_cat, 'sizes': sizes})
+
+def edit_prod(request, id):
+    pro = product.objects.get(product_id=id)
+    sub_cat = sub_category.objects.all()
+    sizes = Size.objects.all()  # Get all sizes for the dropdown
+
+    if request.method == "POST":
+        # Get form data
+        name = request.POST.get('name')
+        description = request.POST.get('comment')
+        price = request.POST.get('price')
+        stock = request.POST.get('stock')
+        offer = 'offer' in request.POST  # If the offer checkbox is checked
+        dotd = 'dotd' in request.POST  # If the deal-of-the-day checkbox is checked
+        sub_category_id = request.POST.get('category')  # Get the selected subcategory
+
+        # Handle the image uploads
+        gallery_image = request.FILES.get('gallery')  # main image
+        img2 = request.FILES.get('img2')
+        img3 = request.FILES.get('img3')
+        img4 = request.FILES.get('img4')
+
+        # Handle the selected subcategory
+        subcategory = sub_category.objects.get(id=sub_category_id)
+
+        # Update the product instance
+        pro.name = name
+        pro.description = description
+        pro.price = price
+        pro.stock = stock
+        pro.offer = offer
+        pro.dotd = dotd
+        pro.sub_category = subcategory
+
+        # Handle updating sizes (multiple sizes selected)
+        selected_sizes = request.POST.getlist('sizes')  # Get the selected size IDs
+        pro.sizes.clear()  # Clear previous sizes (if any)
+        for size_id in selected_sizes:
+            selected_size = Size.objects.get(id=size_id)
+            pro.sizes.add(selected_size)  # Add the new sizes
+
+        # Handle updating images (if provided)
+        if gallery_image:
+            pro.gallery = gallery_image
+        if img2:
+            pro.img2 = img2
+        if img3:
+            pro.img3 = img3
+        if img4:
+            pro.img4 = img4
+
+        # Save the updated product
+        pro.save()
+
+        # Redirect to product list or another page after editing
+        return redirect('seller:shop')
+
+    # Render the edit product page
+    return render(request, "seller/add_prod.html", {'pro': pro, 'sub_cat': sub_cat, 'sizes': sizes})
+
 
 def orders_list(request):
     s = SellerPerson.objects.get(email=request.session['ven_email'])

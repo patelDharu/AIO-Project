@@ -42,10 +42,10 @@
                                             </div>
 
                                             <div class="sizes">
-                                                <label>Select Size:</label>
-                                                <select name="size" required="">
+                                                <label>Select Sizes:</label>
+                                                <select name="sizes" multiple required="">
                                                     {% for size in sizes %}
-                                                        <option value="{{size.id}}" {% if size.id == pro.sizes.first.id %}selected{% endif %}>{{ size.size }}</option>
+                                                        <option value="{{ size.id }}" {% if size in pro.sizes.all %}selected{% endif %}>{{ size.size }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>

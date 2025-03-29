@@ -1,3 +1,4 @@
+from django.template.backends.django import reraise
 from django.utils import timezone
 from django.db import models
 
@@ -214,3 +215,18 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Progress(models.Model):
+    product = models.ForeignKey(product, to_field='product_id', on_delete=models.CASCADE, blank=True, null=True)
+    availability = models.PositiveIntegerField(default=0)
+    sold = models.PositiveIntegerField(default=0)
+    percentage_sold = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.product.name
+
+
+    class Meta:
+        verbose_name_plural = "Progress Bar - Deal of Day"
+

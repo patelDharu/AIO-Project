@@ -26,7 +26,10 @@ def index(request):
     catdata = category.objects.all()
     sub_category_onedata = sub_category_one.objects.all()
     sub_categorydata = sub_category.objects.all()
-    dotd = product.objects.filter(dotd=True)
+    dotd = Progress.objects.all()
+    for d in dotd:
+        d.percentage_sold = round((d.sold / d.availability) * 100)
+        d.save()
     new_arrival = get_object_or_404(category, id=1)
     new_arrival_prods = product.objects.filter(sub_category__category=new_arrival).order_by('-product_id')
     offers = product.objects.filter(offer=True).order_by('-product_id')
@@ -356,6 +359,15 @@ def place_order(request):
                     s.order_payment_id = s.orderid
                     s.save()
 
+                    try:
+                        progress_status = Progress.objects.get(product__product_id=item.product.product_id)
+                        if progress_status:
+                            progress_status.sold += item.quantity
+                            progress_status.availability -= item.quantity
+                            progress_status.save()
+                    except:
+                        pass
+
                 cart_items.delete()                
                 messages.success(request, 'Your order has been placed successfully!')
                 return redirect('orders')  
@@ -391,6 +403,15 @@ def place_order(request):
                     s.save()
                     s.order_payment_id = "TBU"
                     s.save()
+
+                    try:
+                        progress_status = Progress.objects.get(product__product_id=item.product.product_id)
+                        if progress_status:
+                            progress_status.sold += item.quantity
+                            progress_status.availability -= item.quantity
+                            progress_status.save()
+                    except:
+                        pass
 
                 request.session['amount'] = amount
                 return redirect('payment')  # Ensure this matches the Razorpay payment page URL
