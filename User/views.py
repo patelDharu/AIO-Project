@@ -84,6 +84,7 @@ def user_login(request):
                 return redirect('index')
             else:
                 messages.error(request, 'Invalid password.')
+                return redirect('logreg')
         except UserProfile.DoesNotExist:
             messages.error(request, 'User does not exist.')
             return redirect("logreg")
@@ -127,21 +128,57 @@ def about(request):
     return render(request, "about.html", param)
 
 
+from django.shortcuts import render, get_object_or_404
+from .models import product, Size, sub_category, category, sub_category_one
+
+
 def shop(request, category_id):
     categorys = get_object_or_404(category, id=category_id)
     products = product.objects.filter(sub_category__category=categorys)
+
+    # Get the filter parameters from the GET request (form submission)
+    sub_category_ids = request.GET.getlist('sub_category')  # List of sub_category IDs
+    size_ids = request.GET.getlist('size')  # List of selected size IDs
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+
+    # Filter by sub_category
+    if sub_category_ids:
+        sub_category_ids = [int(id) for id in sub_category_ids]
+        products = products.filter(sub_category__id__in=sub_category_ids)
+
+    # Filter by size
+    if size_ids:
+        size_ids = [int(id) for id in size_ids]
+        products = products.filter(sizes__id__in=size_ids)
+
+    # Filter by price range
+    if min_price and max_price:
+        try:
+            min_price = int(min_price)
+            max_price = int(max_price)
+            products = products.filter(price__gte=min_price, price__lte=max_price)
+        except ValueError:
+            pass  # Ignore if invalid price range, so it won't filter by price
+
     catdata = category.objects.all()
     sub_category_onedata = sub_category_one.objects.all()
     sub_categorydata = sub_category.objects.all()
+    sizes = Size.objects.all()
+
     context = {
         'category': categorys,
         'products': products,
         'main_category': catdata,
         'sub_category_one': sub_category_onedata,
         'sub_category': sub_categorydata,
+        'sizes': sizes,
+        'selected_sub_category_ids': sub_category_ids,  # Pass selected subcategories
+        'selected_size_ids': size_ids,  # Pass selected sizes
     }
-    
+
     return render(request, 'shop.html', context)
+
 
 def men(request,sub_category_id):
     sub_categorys = get_object_or_404(sub_category, id=sub_category_id)
@@ -149,12 +186,41 @@ def men(request,sub_category_id):
     catdata = category.objects.all()
     sub_category_onedata = sub_category_one.objects.all()
     sub_categorydata = sub_category.objects.all()
+    sizes = Size.objects.all()
+    # Get the filter parameters from the GET request (form submission)
+    sub_category_ids = request.GET.getlist('sub_category')  # List of sub_category IDs
+    size_ids = request.GET.getlist('size')  # List of selected size IDs
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+
+    # Filter by sub_category
+    if sub_category_ids:
+        sub_category_ids = [int(id) for id in sub_category_ids]
+        products = products.filter(sub_category__id__in=sub_category_ids)
+
+    # Filter by size
+    if size_ids:
+        size_ids = [int(id) for id in size_ids]
+        products = products.filter(sizes__id__in=size_ids)
+
+    # Filter by price range
+    if min_price and max_price:
+        try:
+            min_price = int(min_price)
+            max_price = int(max_price)
+            products = products.filter(price__gte=min_price, price__lte=max_price)
+        except ValueError:
+            pass  # Ignore if invalid price range, so it won't filter by price
+
     param = {
         'main_category': catdata,
         'sub_category_one': sub_category_onedata,
         'sub_category': sub_categorydata,
         'products': products,
         'subcategory': sub_categorys,
+        'sizes': sizes,
+        'selected_sub_category_ids': sub_category_ids,  # Pass selected subcategories
+        'selected_size_ids': size_ids,  # Pass selected sizes
     }
 
     return render(request, 'men.html', param)

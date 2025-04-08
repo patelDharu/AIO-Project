@@ -31,10 +31,10 @@
 </div>
 
 <!--<h1 class="page-title">Shop</h1>-->
-<div class="main-container shop-page no-sidebar">
+<div class="main-container shop-page left-sidebar">
     <div class="container">
         <div class="row">
-            <div class="main-content col-md-12">
+            <div class="main-content col-xl-9 col-lg-8 col-md-8 col-sm-12 has-sidebar">
                 <div class="auto-clear lynessa-products">
                     <ul class="row products columns-3">
                         {% for product in products %}
@@ -101,9 +101,70 @@
                     </ul>
                 </div>
             </div>
-        </div>
-    </div>
+
+            <div class="sidebar col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                <div id="widget-area" class="widget-area shop-sidebar">
+                    <form method="get" action="">
+                    <div id="lynessa_price_filter-2" class="widget lynessa widget_price_filter"><h2
+                            class="widgettitle">Filters<span class="arrow"></span></h2>
+                        <button type="submit">Apply Filters</button>
+                            <div class="price_slider_wrapper">
+                                <!-- Price Range Filter -->
+                                <div class="filter-section">
+                                    <h3>Filter By Price</h3>
+                                    <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
+                                    <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
+                                </div>
+                            </div>
+                    </div>
+                    <div id="lynessa_layered_nav-6"
+                         class="widget lynessa widget_layered_nav lynessa-widget-layered-nav"><h2
+                            class="widgettitle">Filter By Size<span class="arrow"></span></h2>
+                        <ul class="lynessa-widget-layered-nav-list">
+                            {% for size in sizes %}
+                            <li class="lynessa-widget-layered-nav-list__item lynessa-layered-nav-term ">
+                                <label>
+                                    <input type="checkbox" name="size" value="{{ size.id }}"
+                                            {% if size.id in selected_size_ids %}checked{% endif %}>
+                                    <span>{{size.size}}</span>
+                                </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div id="lynessa_product_categories-3" class="widget lynessa widget_product_categories"><h2
+                            class="widgettitle">Product categories<span class="arrow"></span></h2>
+                        <ul class="product-categories">
+                            {% for sb in sub_category %}
+                            <li class="cat-item cat-item-22">
+                                <label>
+                                    <input type="checkbox" name="sub_category" value="{{ sb.id }}"
+                                            {% if sb.id in selected_sub_category_ids %}checked{% endif %}>
+                                    <span>{{sb.name}}</span>
+                                </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    </form>
+                    <div id="lynessa_product_categories-4" class="widget lynessa widget_product_categories">
+                        <h2 class="widgettitle">Genders<span class="arrow"></span></h2>
+                        <ul class="product-categories">
+                            <li class="ml-4">
+                                <a href="/shop/2">Female</a>
+                            </li>
+                            <li class="ml-4">
+                                <a href="/shop/3">Male</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 </div>
+</div>
+</div>
+</div>
+
 
 <!--<div class="banner-wrapper has_background">
     <img src="{% static 'assets/images/banner-for-all2.jpg' %}"
