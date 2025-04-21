@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e#!ov(wfcd6(@bo+!2#%tn$(jbbh@3bz#wh2hx=z0xgi@hb@61
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aio-project.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -121,6 +121,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -132,9 +133,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 """import os
 MEDIA_URL='image/' 
 MEDIA_ROOT=os.path.join(BASE_DIR,'/image')"""
-
-import os
-ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME', 'localhost')]
 
 
 RAZOR_KEY_ID = 'rzp_test_F9gRSjaJozWYhc'
