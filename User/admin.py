@@ -60,6 +60,12 @@ class UserProfile_(admin.ModelAdmin):
 class Cart_(admin.ModelAdmin):
     list_display = ['cartid','product','UserProfile','quantity','added_on']
 
+class Size_(admin.ModelAdmin):
+    list_display = ['N/A','S','M','L','XL','XXL','3XL','4XL','26','28','30']
+
+admin.site.register(Size)    
+
+
 #admin.site.register(Cart,Cart_)
 #admin.site.register(Size)
 #admin.site.register(Wishlist)

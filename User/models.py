@@ -108,6 +108,9 @@ class Size(models.Model):
         ('XXL', 'XXL'),
         ('3XL', '3XL'),
         ('4XL', '4XL'),
+        ('26','26'),
+        ('28','28'),
+        ('30','30'),
     )
     size = models.CharField(choices=SIZES, max_length=50)
 
